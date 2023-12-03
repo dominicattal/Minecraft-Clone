@@ -5,7 +5,6 @@
 int main()
 {
     glfwInit();
-    printf("h");
-    printf("i");
+    printf("hi");
     return 0;
 }
