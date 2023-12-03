@@ -1,10 +1,7 @@
-#include <glad.h>
-#include <glfw.h>
-#include <stdio.h>
+#include "util/program.h"
 
 int main()
 {
-    glfwInit();
-    printf("hi");
-    return 0;
+    initalizeProgram();
+    loopProgram();
 }
