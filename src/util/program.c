@@ -1,7 +1,7 @@
 #include "program.h"
 
-int window_width = 800;
-int window_height = 600;
+int window_width = DEFAULT_WINDOW_WIDTH;
+int window_height = DEFAULT_WINDOW_HEIGHT;
 GLFWwindow* window;
 
 void initalizeProgram()

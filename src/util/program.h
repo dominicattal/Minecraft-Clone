@@ -5,6 +5,9 @@
 #include <stdio.h>
 #include <stdbool.h>
 
+#define DEFAULT_WINDOW_WIDTH 800
+#define DEFAULT_WINDOW_HEIGHT 600
+
 void initalizeProgram();
 void loopProgram();
 void processInput(GLFWwindow* window);
