@@ -1,7 +1,7 @@
-#include "util/program.h"
+#include "gfx/window.h"
 
 int main()
 {
-    initalizeProgram();
-    loopProgram();
+    initalizeWindow();
+    loopWindow();
 }

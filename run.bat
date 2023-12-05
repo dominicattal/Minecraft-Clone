@@ -8,4 +8,4 @@ for /R .\src %%f in (*) do (
 )
 gcc -I./lib/glad/include -I./lib/glfw/include -I./lib/stb/include -L./lib/glfw/link %Cfiles% -lglfw3dll -o prog
 prog
-del prog
+del prog.exe
