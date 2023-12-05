@@ -1,25 +1,10 @@
 #ifndef VEC_H
 #define VEC_H
 
-struct vec2f
-{
-    float x, y;
-};
-
-struct vec2i
-{
-    int x, y;
-};
-
-struct vec3f
-{
-    float x, y, z;
-};
-
-struct vec3i
-{
-    int x, y, z;
-};
+struct vec2f { float x, y; };
+struct vec2i { int x, y; };
+struct vec3f { float x, y, z; };
+struct vec3i { int x, y, z; };
 
 typedef struct vec2f vec2f;
 typedef struct vec2i vec2i;
