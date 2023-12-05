@@ -1,8 +1,6 @@
 #include "window.h"
 
-int window_width = DEFAULT_WINDOW_WIDTH;
-int window_height = DEFAULT_WINDOW_HEIGHT;
-GLFWwindow* window;
+struct Window window;
 
 void initalizeWindow()
 {
@@ -12,33 +10,34 @@ void initalizeWindow()
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     
-    window = glfwCreateWindow(window_width, window_height, "Name", NULL, NULL);
-    if (window == NULL)
+    window.width  = DEFAULT_WINDOW_WIDTH;
+    window.height = DEFAULT_WINDOW_HEIGHT;
+    window.window = glfwCreateWindow(window.width, window.height, "Name", NULL, NULL);
+    if (window.window == NULL)
         fprintf(stderr, "failed to create window");
-    glfwMakeContextCurrent(window);
+    glfwMakeContextCurrent(window.window);
     //glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
-    glfwSetFramebufferSizeCallback(window, framebufferSizeCallback);
-    glfwSetMouseButtonCallback(window, mouseButtonCallback);
-    glfwSetCursorPosCallback(window, mouseCallback);
+    glfwSetFramebufferSizeCallback(window.window, framebufferSizeCallback);
+    glfwSetMouseButtonCallback(window.window, mouseButtonCallback);
+    glfwSetCursorPosCallback(window.window, mouseCallback);
 
     if (!gladLoadGL(glfwGetProcAddress))
         fprintf(stderr, "failed to initalize GLAD");
-    glViewport(0, 0, window_width, window_height);
+    glViewport(0, 0, window.width, window.height);
     glEnable(GL_DEPTH_TEST);
 }
 
 void loopWindow()
 {
-    while (!glfwWindowShouldClose(window))
+    while (!glfwWindowShouldClose(window.window))
     {
-        processInput(window);
+        processInput(window.window);
         glClearColor(0.7f, 0.7f, 0.7f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glfwPollEvents();
-        glfwSwapBuffers(window);
+        glfwSwapBuffers(window.window);
     }
-    free(window);
 }
 
 void processInput(GLFWwindow* window)

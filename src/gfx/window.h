@@ -2,10 +2,16 @@
 #define PROGRAM_H
 
 #include "gfx.h"
-#include "util.h"
+#include "../util/util.h"
 
 #define DEFAULT_WINDOW_WIDTH 800
 #define DEFAULT_WINDOW_HEIGHT 600
+
+struct Window
+{
+    GLFWwindow* window;
+    int width, height;
+};
 
 void initalizeWindow();
 void loopWindow();
