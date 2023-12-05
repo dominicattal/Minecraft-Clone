@@ -7,14 +7,14 @@ GLFWwindow* window;
 void initalizeWindow()
 {
     if (!glfwInit())
-        printf("failed to initalize GLFW");
+        fprintf(stderr, "failed to initalize GLFW");
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     
     window = glfwCreateWindow(window_width, window_height, "Name", NULL, NULL);
     if (window == NULL)
-        printf("failed to create window");
+        fprintf(stderr, "failed to create window");
     glfwMakeContextCurrent(window);
     //glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
@@ -23,7 +23,7 @@ void initalizeWindow()
     glfwSetCursorPosCallback(window, mouseCallback);
 
     if (!gladLoadGL(glfwGetProcAddress))
-        printf("failed to initalize GLAD");
+        fprintf(stderr, "failed to initalize GLAD");
     glViewport(0, 0, window_width, window_height);
     glEnable(GL_DEPTH_TEST);
 }
