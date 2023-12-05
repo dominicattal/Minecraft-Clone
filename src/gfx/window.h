@@ -1,9 +1,8 @@
 #ifndef PROGRAM_H
 #define PROGRAM_H
+
 #include "gfx.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
+#include "util.h"
 
 #define DEFAULT_WINDOW_WIDTH 800
 #define DEFAULT_WINDOW_HEIGHT 600
