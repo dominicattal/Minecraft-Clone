@@ -3,6 +3,7 @@
 #include <glad.h>
 #include <glfw.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <stdbool.h>
 
 #define DEFAULT_WINDOW_WIDTH 800

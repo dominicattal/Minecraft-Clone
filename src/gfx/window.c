@@ -38,6 +38,7 @@ void loopWindow()
         glfwPollEvents();
         glfwSwapBuffers(window);
     }
+    free(window);
 }
 
 void processInput(GLFWwindow* window)
