@@ -1,27 +1,31 @@
 #include "vec.h"
 
-void vec2f_init(vec2f* p_vec2f, float x, float y)
+// vec2f
+void vec2f_init(vec2f* p_vec, float x, float y)
 {
-    p_vec2f->x = x;
-    p_vec2f->y = y;
+    p_vec->x = x;
+    p_vec->y = y;
 }
 
-void vec2i_init(vec2i* p_vec2i, int x, int y)
+// vec2i
+void vec2i_init(vec2i* p_vec, int x, int y)
 {
-    p_vec2i->x = x;
-    p_vec2i->y = y;
+    p_vec->x = x;
+    p_vec->y = y;
 }
 
-void vec3f_init(vec3f* p_vec3f, float x, float y, float z)
+// vec3f
+void vec3f_init(vec3f* p_vec, float x, float y, float z)
 {
-    p_vec3f->x = x;
-    p_vec3f->y = y;
-    p_vec3f->z = z;
+    p_vec->x = x;
+    p_vec->y = y;
+    p_vec->z = z;
 }
 
-void vec3i_init(vec3i* p_vec3i, int x, int y, int z)
+// vec3i
+void vec3i_init(vec3i* p_vec, int x, int y, int z)
 {
-    p_vec3i->x = x;
-    p_vec3i->y = y;
-    p_vec3i->z = z;
+    p_vec->x = x;
+    p_vec->y = y;
+    p_vec->z = z;
 }
