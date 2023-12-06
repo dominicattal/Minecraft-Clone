@@ -51,3 +51,8 @@ Shader shader_init(char* vs_path, char* fs_path)
     glDeleteShader(fragment);
     return self;
 }
+
+void shader_use(Shader shader)
+{
+    glUseProgram(shader.ID);
+}
