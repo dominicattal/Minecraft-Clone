@@ -1,4 +1,5 @@
 #include "window.h"
+#include "shader.h"
 
 Window window;
 
@@ -25,6 +26,8 @@ void window_init()
     gladLoadGL(glfwGetProcAddress);
     glViewport(0, 0, window.width, window.height);
     glEnable(GL_DEPTH_TEST);
+
+    shader_init("src/shaders/vertex.sl", "src/shaders/fragment.sl");
 }
 
 void window_loop()
