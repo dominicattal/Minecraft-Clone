@@ -2,6 +2,6 @@
 
 int main()
 {
-    initalizeWindow();
-    loopWindow();
+    window_init();
+    window_loop();
 }

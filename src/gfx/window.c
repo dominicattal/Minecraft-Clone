@@ -2,10 +2,9 @@
 
 struct Window window;
 
-void initalizeWindow()
+void window_init()
 {
-    if (!glfwInit())
-        fprintf(stderr, "failed to initalize GLFW");
+    glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
@@ -16,22 +15,19 @@ void initalizeWindow()
     window.dt = 0;
     window.last_frame = glfwGetTime();
 
-    if (window.handle == NULL)
-        fprintf(stderr, "failed to create window");
     glfwMakeContextCurrent(window.handle);
     //glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
-    glfwSetFramebufferSizeCallback(window.handle, framebufferSizeCallback);
-    glfwSetMouseButtonCallback(window.handle, mouseButtonCallback);
-    glfwSetCursorPosCallback(window.handle, mouseCallback);
+    glfwSetFramebufferSizeCallback(window.handle, framebuffer_size_callback);
+    glfwSetMouseButtonCallback(window.handle, mouse_button_callback);
+    glfwSetCursorPosCallback(window.handle, mouse_callback);
 
-    if (!gladLoadGL(glfwGetProcAddress))
-        fprintf(stderr, "failed to initalize GLAD");
+    gladLoadGL(glfwGetProcAddress);
     glViewport(0, 0, window.width, window.height);
     glEnable(GL_DEPTH_TEST);
 }
 
-void loopWindow()
+void window_loop()
 {
     int i = 0;
     while (!glfwWindowShouldClose(window.handle))
@@ -43,37 +39,37 @@ void loopWindow()
             printf(buffer);
         }
         i++;
-        processInput();
+        process_input();
         glClearColor(0.7f, 0.7f, 0.7f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glfwPollEvents();
         glfwSwapBuffers(window.handle);
-        updateDeltaTime();
+        update_delta_time();
     }
 }
 
-void processInput()
+void process_input()
 {
     if (glfwGetKey(window.handle, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window.handle, true);
 }
 
-void updateDeltaTime()
+void update_delta_time()
 {
     float this_frame = glfwGetTime();
     window.dt = this_frame - window.last_frame;
     window.last_frame = this_frame;
 }
 
-void framebufferSizeCallback(GLFWwindow* window, int width, int height) 
+void framebuffer_size_callback(GLFWwindow* window, int width, int height) 
 {
 
 }
-void mouseButtonCallback(GLFWwindow* window, int button, int actions, int mods)
+void mouse_button_callback(GLFWwindow* window, int button, int actions, int mods)
 {
 
 }
-void mouseCallback(GLFWwindow* window, double xpos, double ypos)
+void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 {
 
 }
