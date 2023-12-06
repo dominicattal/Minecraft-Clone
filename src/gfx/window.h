@@ -10,14 +10,17 @@
 struct Window
 {
     GLFWwindow* handle;
-    int width, height;
+    unsigned short width, height;
     float dt, last_frame;
 };
+
+typedef struct Window Window;
 
 void window_init();
 void window_loop();
 void process_input();
 void update_delta_time();
+void print_delta_time();
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void mouse_button_callback(GLFWwindow* window, int button, int actions, int mods);

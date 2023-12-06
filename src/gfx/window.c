@@ -1,6 +1,6 @@
 #include "window.h"
 
-struct Window window;
+Window window;
 
 void window_init()
 {
@@ -29,16 +29,8 @@ void window_init()
 
 void window_loop()
 {
-    int i = 0;
     while (!glfwWindowShouldClose(window.handle))
     {
-        if (i % 1000 == 1)
-        {
-            char buffer[50];
-            snprintf(buffer, sizeof buffer, "%f\n", 1 / window.dt);
-            printf(buffer);
-        }
-        i++;
         process_input();
         glClearColor(0.7f, 0.7f, 0.7f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -59,6 +51,16 @@ void update_delta_time()
     float this_frame = glfwGetTime();
     window.dt = this_frame - window.last_frame;
     window.last_frame = this_frame;
+}
+
+void print_delta_time()
+{
+    if (window.dt != 0)
+    {
+        char buffer[50];
+        snprintf(buffer, sizeof buffer, "%f\n", 1 / window.dt);
+        printf(buffer);  
+    }  
 }
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height) 

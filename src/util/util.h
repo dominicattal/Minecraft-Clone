@@ -6,5 +6,6 @@
 #include <stdbool.h>
 
 #include "vec.h"
+#include "camera.h"
 
 #endif
