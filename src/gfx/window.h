@@ -9,13 +9,16 @@
 
 struct Window
 {
-    GLFWwindow* window;
+    GLFWwindow* handle;
     int width, height;
+    float dt, last_frame;
 };
 
 void initalizeWindow();
 void loopWindow();
-void processInput(GLFWwindow* window);
+void processInput();
+void updateDeltaTime();
+
 void framebufferSizeCallback(GLFWwindow* window, int width, int height);
 void mouseButtonCallback(GLFWwindow* window, int button, int actions, int mods);
 void mouseCallback(GLFWwindow* window, double xpos, double ypos);
