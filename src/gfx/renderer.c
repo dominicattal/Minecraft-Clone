@@ -11,6 +11,7 @@ void renderer_init(vec2f viewport_size)
     renderer.vbo = vbo_init();
     vbo_bind(renderer.vbo);
     camera_init(&(renderer.camera));
+    shader_link_camera(renderer.camera);
 }
 
 void render()

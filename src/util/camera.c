@@ -15,4 +15,6 @@ void camera_init(Camera* camera)
     vec3f_init0(&(camera->facing));
     vec3f_init0(&(camera->right));
     vec3f_init0(&(camera->up));
+    camera->viewID = 0;
+    camera->projID = 0;
 }
