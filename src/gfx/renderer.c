@@ -10,6 +10,7 @@ void renderer_init(vec2f viewport_size)
     vao_bind(renderer.vao);
     renderer.vbo = vbo_init();
     vbo_bind(renderer.vbo);
+    camera_init(&(renderer.camera));
 }
 
 void render()
