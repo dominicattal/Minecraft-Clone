@@ -2,10 +2,12 @@
 #define CAMERA_H
 
 #include "vec.h"
+#include "mat.h"
 
 struct Camera
 {
     float yaw, pitch, speed, sensitivity, aspect_ratio, fov;
+    mat4f view, proj;
     vec3f position, facing, right, up;
     unsigned int viewID, projID;
 };
