@@ -4,9 +4,11 @@
 #include "shader.h"
 #include "vao.h"
 #include "vbo.h"
+#include "../util/camera.h"
 
 struct Renderer
 {
+    Camera camera;
     Shader shader;
     VAO vao;
     VBO vbo;

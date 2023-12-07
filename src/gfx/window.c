@@ -1,6 +1,5 @@
 #include "window.h"
 
-
 Window window;
 
 void window_init()
