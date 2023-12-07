@@ -1,7 +1,5 @@
 #include "window.h"
-#include "shader.h"
-#include "vao.h"
-#include "vbo.h"
+
 
 Window window;
 
@@ -28,22 +26,16 @@ void window_init()
     gladLoadGL(glfwGetProcAddress);
     glViewport(0, 0, window.width, window.height);
     glEnable(GL_DEPTH_TEST);
+
+    renderer_init();
 }
 
 void window_loop()
 {
-    Shader shader = shader_init("src/shaders/vertex.sl", "src/shaders/fragment.sl");
-    shader_use(shader);
-    VAO vao = vao_init();
-    vao_bind(vao);
-    VBO vbo = vbo_init();
-    vbo_bind(vbo);
     while (!glfwWindowShouldClose(window.handle))
     {
         process_input();
-        glClearColor(0.7f, 0.7f, 0.7f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        glDrawArrays(GL_TRIANGLES, 0, 6);
+        render();
         glfwPollEvents();
         glfwSwapBuffers(window.handle);
         update_delta_time();

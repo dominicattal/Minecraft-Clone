@@ -3,6 +3,7 @@
 
 #include "gfx.h"
 #include "../util/util.h"
+#include "renderer.h"
 
 #define DEFAULT_WINDOW_WIDTH 800
 #define DEFAULT_WINDOW_HEIGHT 600
