@@ -31,6 +31,9 @@ void window_init()
 
 void window_loop()
 {
+    mat4f mat;
+    int k = 1;
+    printf("%c", k);
     while (!glfwWindowShouldClose(window.handle))
     {
         process_input();

@@ -7,6 +7,9 @@
 #include <stdbool.h>
 #include <string.h>
 #include "vec.h"
+#include "mat.h"
 #include "camera.h"
+
+typedef float* mat4f;
 
 #endif
