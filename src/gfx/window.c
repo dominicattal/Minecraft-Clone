@@ -9,9 +9,9 @@ void window_init()
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     
-    window.width  = DEFAULT_WINDOW_WIDTH;
-    window.height = DEFAULT_WINDOW_HEIGHT;
-    window.handle = glfwCreateWindow(window.width, window.height, "Name", NULL, NULL);
+    window.size.x = DEFAULT_WINDOW_WIDTH;
+    window.size.y = DEFAULT_WINDOW_HEIGHT;
+    window.handle = glfwCreateWindow(window.size.x, window.size.y, "Name", NULL, NULL);
     window.dt = 0;
     window.last_frame = glfwGetTime();
 
@@ -23,10 +23,10 @@ void window_init()
     glfwSetCursorPosCallback(window.handle, mouse_callback);
 
     gladLoadGL(glfwGetProcAddress);
-    glViewport(0, 0, window.width, window.height);
+    glViewport(0, 0, window.size.x, window.size.y);
     glEnable(GL_DEPTH_TEST);
 
-    renderer_init();
+    renderer_init(window.size);
 }
 
 void window_loop()

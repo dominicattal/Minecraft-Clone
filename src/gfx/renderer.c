@@ -2,7 +2,7 @@
 
 Renderer renderer;
 
-void renderer_init()
+void renderer_init(vec2f viewport_size)
 {
     renderer.shader = shader_init("src/shaders/vertex.sl", "src/shaders/fragment.sl");
     shader_use(renderer.shader);

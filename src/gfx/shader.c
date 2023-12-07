@@ -56,3 +56,8 @@ void shader_use(Shader shader)
 {
     glUseProgram(shader.ID);
 }
+
+void shader_link_camera(Shader shader, Camera* camera)
+{
+    
+}

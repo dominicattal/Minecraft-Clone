@@ -4,7 +4,7 @@
 #include "shader.h"
 #include "vao.h"
 #include "vbo.h"
-#include "../util/camera.h"
+#include "../util/util.h"
 
 struct Renderer
 {
@@ -16,7 +16,7 @@ struct Renderer
 
 typedef struct Renderer Renderer;
 
-void renderer_init();
+void renderer_init(vec2f viewport_size);
 void render();
 
 #endif

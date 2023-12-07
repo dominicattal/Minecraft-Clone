@@ -11,7 +11,7 @@
 struct Window
 {
     GLFWwindow* handle;
-    unsigned short width, height;
+    vec2f size;
     float dt, last_frame;
 };
 
