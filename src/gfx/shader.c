@@ -25,6 +25,8 @@ static unsigned int _compile(char* s_path, GLenum type)
     shader_code = _read_file(s_path);
     glShaderSource(shader, 1, &shader_code, NULL);
     glCompileShader(shader);
+
+    //debug
     char info_log[512];
     int success;
     glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
@@ -32,8 +34,9 @@ static unsigned int _compile(char* s_path, GLenum type)
     {
         glGetShaderInfoLog(shader, 512, NULL, info_log);
         printf(info_log);
-        exit(0);
+        exit(1);
     }
+
     return shader;
 }
 
@@ -41,13 +44,26 @@ Shader shader_init(char* vs_path, char* fs_path)
 {
     Shader self;
     unsigned int vertex, fragment;
+    self.ID = glCreateProgram();
     vertex   = _compile(vs_path, GL_VERTEX_SHADER);
     fragment = _compile(fs_path, GL_FRAGMENT_SHADER);
-    self.ID = glCreateProgram();
     glAttachShader(self.ID, vertex);
     glAttachShader(self.ID, fragment);
+    glLinkProgram(self.ID);
     glDeleteShader(vertex);
     glDeleteShader(fragment);
+
+    //debug
+    char info_log[512];
+    int success;
+    glGetProgramiv(self.ID, GL_LINK_STATUS, &success);
+    if (!success)
+    {
+        glGetProgramInfoLog(self.ID, 512, NULL, info_log);
+        printf(info_log);
+        exit(1);
+    }
+    
     return self;
 }
 
@@ -56,10 +72,10 @@ void shader_use(Shader shader)
     glUseProgram(shader.ID);
 }
 
-void shader_link_camera(Shader shader, Camera camera)
+void shader_link_camera(Shader shader, Camera* camera)
 {
-    camera.viewID = glGetUniformLocation(shader.ID, "view");
-    camera.projID = glGetUniformLocation(shader.ID, "proj");
-    camera_update_view(&camera);
-    camera_update_proj(&camera);
+    camera->viewID = glGetUniformLocation(shader.ID, "view");
+    camera->projID = glGetUniformLocation(shader.ID, "proj");
+    camera_update_view(camera);
+    camera_update_proj(camera);
 }
