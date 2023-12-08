@@ -27,10 +27,8 @@ void renderer_camera_turn(vec2f offset)
     camera_turn(&renderer.camera, offset);
 }
 
-void render()
+void render_color_blocks()
 {
-    glClearColor(0.7f, 0.7f, 0.7f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);   
     float vertices[] = {
         0, 0, 0,
         1, 0, 0,
@@ -42,15 +40,24 @@ void render()
         0, 1, 1
     };
     unsigned int indices[] = {
-        1, 0, 3, 1, 3, 2, // north (-z)
-        4, 5, 6, 4, 6, 7, // south (+z)
-        5, 1, 2, 5, 2, 6, // east (+x)
-        0, 4, 7, 0, 7, 3, // west (-x)
-        2, 3, 7, 2, 7, 6, // top (+y)
-        5, 4, 0, 5, 0, 1  // bottom (-y)
+        1, 0, 3, 1, 3, 2, // -z
+        4, 5, 6, 4, 6, 7, // +z
+        5, 1, 2, 5, 2, 6, // +x
+        0, 4, 7, 0, 7, 3, // -x
+        2, 3, 7, 2, 7, 6, // +y
+        5, 4, 0, 5, 0, 1  // -y
     };
     vbo_buffer(renderer.vbo, sizeof(vertices), vertices);
     vbo_buffer(renderer.ebo, sizeof(indices), indices);
     vao_attr();
     glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
+}
+
+void render_texture_blocks() {}
+
+void render()
+{
+    glClearColor(0.7f, 0.7f, 0.7f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);   
+    render_color_blocks();
 }

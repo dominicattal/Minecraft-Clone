@@ -4,18 +4,15 @@
 
 void camera_init(Camera* camera, float aspect_ratio)
 {
-    camera->yaw = PI / 2;
+    camera->yaw = 0;
     camera->pitch = 0;
-    camera->speed = 1;
+    camera->speed = 20;
     camera->sensitivity = 0.001;
     camera->aspect_ratio = aspect_ratio; 
     camera->fov = PI / 4;
     camera->view = mat4f_init();
     camera->proj = mat4f_init();
-    vec3f_init(&camera->position, 0, 0, 3);
-    vec2f origin;
-    vec2f_init0(&origin);
-    camera_turn(camera, origin);
+    vec3f_init(&camera->position, 3, -3, -3);
 }
 
 void camera_set_aspect_ratio(Camera* camera, float aspect_ratio)

@@ -21,6 +21,8 @@ typedef struct Renderer Renderer;
 void renderer_init(vec2i viewport_size);
 void renderer_camera_move(vec3f direction);
 void renderer_camera_turn(vec2f offset);
+void render_color_blocks();
+void render_texture_blocks();
 void render();
 
 #endif
