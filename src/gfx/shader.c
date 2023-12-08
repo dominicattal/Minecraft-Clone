@@ -60,4 +60,6 @@ void shader_link_camera(Shader shader, Camera camera)
 {
     camera.viewID = glGetUniformLocation(shader.ID, "view");
     camera.projID = glGetUniformLocation(shader.ID, "proj");
+    camera_update_view(&camera);
+    camera_update_proj(&camera);
 }
