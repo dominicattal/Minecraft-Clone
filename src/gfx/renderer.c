@@ -12,14 +12,20 @@ void renderer_init(vec2i viewport_size)
     vbo_bind(renderer.vbo);
     renderer.ebo = vbo_init(GL_ELEMENT_ARRAY_BUFFER);
     vbo_bind(renderer.ebo);
-    
+    renderer.block_modelID = glGetUniformLocation(renderer.shader.ID, "model");
+    renderer.blocks = malloc(10000 * sizeof(Block));
+    for (int i = 0; i < 100;i++)
+    {
+        for (int j = 0; j < 100; j++)
+            block_init(&renderer.blocks[100*i+j], i, 0, j);
+    }
     camera_init(&renderer.camera, (float)viewport_size.x / viewport_size.y);
     shader_link_camera(renderer.shader, &renderer.camera);
 }
 
-void renderer_camera_move(vec3f direction)
+void renderer_camera_move(vec3f moving, float dt)
 {
-    camera_move(&renderer.camera, direction);
+    camera_move(&renderer.camera, moving, dt);
 }
 
 void renderer_camera_turn(vec2f offset)
@@ -50,7 +56,16 @@ void render_color_blocks()
     vbo_buffer(renderer.vbo, sizeof(vertices), vertices);
     vbo_buffer(renderer.ebo, sizeof(indices), indices);
     vao_attr();
-    glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
+    mat4f model = mat4f_init();
+    for (int i = 0; i < 10000; i++)
+    {
+        vec3f pos = renderer.blocks[i].position;
+        model[12] = pos.x;
+        model[13] = pos.y;
+        model[14] = pos.z;
+        glUniformMatrix4fv(renderer.block_modelID, 1, GL_FALSE, model);
+        glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
+    }
 }
 
 void render_texture_blocks() {}

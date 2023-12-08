@@ -15,5 +15,5 @@ void vbo_bind(VBO vbo)
 
 void vbo_buffer(VBO vbo, int size, void* data)
 {
-    glBufferData(vbo.type, size, data, GL_DYNAMIC_DRAW);
+    glBufferData(vbo.type, size, data, GL_STATIC_DRAW);
 }

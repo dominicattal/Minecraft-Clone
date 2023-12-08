@@ -95,6 +95,15 @@ void vec3f_add_ip(vec3f* p_vec, vec3f vec)
     p_vec->z += vec.z;
 }
 
+vec3f vec3f_scale(const vec3f vec, float scale)
+{
+    vec3f ret;
+    ret.x = vec.x * scale;
+    ret.y = vec.y * scale;
+    ret.z = vec.z * scale;
+    return ret;
+}
+
 vec3f vec3f_add(const vec3f vec1, const vec3f vec2)
 {
     vec3f ret;
