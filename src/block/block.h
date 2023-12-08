@@ -10,4 +10,6 @@ struct Block
 
 typedef struct Block Block;
 
+void block_init(Block* block, float x, float y, float z);
+
 #endif

@@ -4,6 +4,7 @@
 #include "shader.h"
 #include "vao.h"
 #include "vbo.h"
+#include "../block/block.h"
 #include "../util/util.h"
 
 struct Renderer
@@ -12,6 +13,7 @@ struct Renderer
     Shader shader;
     VAO vao;
     VBO vbo;
+    Block* blocks;
 };
 
 typedef struct Renderer Renderer;
