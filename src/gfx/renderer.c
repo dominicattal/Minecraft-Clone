@@ -2,6 +2,15 @@
 
 Renderer renderer;
 
+float vertices[18] = {
+        0.5, 0.5, 0.0,
+        0.5, -0.5, 0.0,
+        -0.5, 0.5, 0.0,
+        0.5, -0.5, 0.0,
+        -0.5, -0.5, 0.0,
+        -0.5, 0.5, 0.0
+    };
+
 void renderer_init(vec2i viewport_size)
 {
     renderer.shader = shader_init("src/shaders/vertex.sl", "src/shaders/fragment.sl");
@@ -10,15 +19,8 @@ void renderer_init(vec2i viewport_size)
     vao_bind(renderer.vao);
     renderer.vbo = vbo_init();
     vbo_bind(renderer.vbo);
-    float vertices[18] = {
-        0.5, 0.5, 0.0,
-        0.5, -0.5, 0.0,
-        -0.5, 0.5, 0.0,
-        0.5, -0.5, 0.0,
-        -0.5, -0.5, 0.0,
-        -0.5, 0.5, 0.0
-    };
-    vbo_link(renderer.vbo, vertices);
+    vbo_buffer(renderer.vbo, vertices);
+    vao_attr();
     camera_init(&renderer.camera, (float)viewport_size.x / viewport_size.y);
     shader_link_camera(renderer.shader, &renderer.camera);
 }

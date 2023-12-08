@@ -13,6 +13,6 @@ typedef struct VBO VBO;
 
 VBO vbo_init();
 void vbo_bind(VBO vbo);
-void vbo_link(VBO vbo, float* data);
+void vbo_buffer(VBO vbo, float* data);
 
 #endif

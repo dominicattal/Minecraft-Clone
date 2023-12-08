@@ -12,5 +12,6 @@ typedef struct VAO VAO;
 
 VAO vao_init();
 void vao_bind(VAO vao);
+void vao_attr();
 
 #endif
