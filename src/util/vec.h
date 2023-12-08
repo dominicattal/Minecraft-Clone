@@ -40,6 +40,8 @@ void vec3f_add_ip(vec3f* p_vec, vec3f vec);
 
 vec3f vec3f_add(const vec3f vec1, const vec3f vec2);
 
+vec3f vec3f_cross(const vec3f vec1, const vec3f vec2);
+
 void vec3f_print(const vec3f vec);
 
 #endif

@@ -25,7 +25,12 @@ void renderer_init(vec2f viewport_size)
 
 void renderer_camera_move(vec3f direction)
 {
+    camera_move(&renderer.camera, direction);
+}
 
+void renderer_camera_turn(vec2f offset)
+{
+    camera_turn(&renderer.camera, offset);
 }
 
 void render()

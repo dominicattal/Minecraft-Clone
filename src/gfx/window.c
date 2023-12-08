@@ -11,12 +11,12 @@ void window_init()
     
     window.size.x = DEFAULT_WINDOW_WIDTH;
     window.size.y = DEFAULT_WINDOW_HEIGHT;
-    window.handle = glfwCreateWindow(window.size.x, window.size.y, "Name", NULL, NULL);
+    window.handle = glfwCreateWindow(window.size.x, window.size.y, "Bad Minecraft", NULL, NULL);
     window.dt = 0;
     window.last_frame = glfwGetTime();
 
     glfwMakeContextCurrent(window.handle);
-    //glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    glfwSetInputMode(window.handle, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
     glfwSetFramebufferSizeCallback(window.handle, framebuffer_size_callback);
     glfwSetMouseButtonCallback(window.handle, mouse_button_callback);
@@ -61,6 +61,8 @@ void process_input()
         moving.y += 1;
     if (glfwGetKey(window.handle, GLFW_KEY_R) == GLFW_PRESS)
         print_delta_time();
+    vec3f_norm_scale_ip(&moving, window.dt);
+    renderer_camera_move(moving);
 }
 
 void update_delta_time()
@@ -90,5 +92,7 @@ void mouse_button_callback(GLFWwindow* window, int button, int actions, int mods
 }
 void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 {
-
+    vec2f offset;
+    vec2f_init(&offset, xpos, ypos);
+    renderer_camera_turn(offset);
 }

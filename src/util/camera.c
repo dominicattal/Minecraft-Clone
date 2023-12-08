@@ -23,12 +23,31 @@ void camera_set_aspect_ratio(Camera* camera, float aspect_ratio)
     camera->aspect_ratio = aspect_ratio;
 }
 
-void camera_turn(Camera* camera, vec2f offset) {}
+void camera_turn(Camera* camera, vec2f offset) 
+{
+    vec2f_scale_ip(&offset, camera->sensitivity);
+    camera->yaw += offset.x;
+    camera->pitch += offset.y;
+    if (camera->pitch > PI / 2)
+        camera->pitch = PI / 2;
+    if (camera->pitch < -PI / 2)
+        camera->pitch = -PI / 2;
+    camera->facing.x = cos(camera->yaw) * cos(camera->pitch);
+    camera->facing.y = sin(camera->pitch);
+    camera->facing.z = sin(camera->yaw) * cos(camera->pitch);
+    vec3f_normalize_ip(&camera->facing);
+    vec3f y_axis;
+    vec3f_init(&y_axis, 0, 1, 0);
+    camera->right = vec3f_cross(y_axis, camera->facing);
+    vec3f_normalize_ip(&camera->right);
+    camera->up = vec3f_cross(camera->facing, camera->right);
+    camera_update_view(camera);
+}
 
 void camera_move(Camera* camera, vec3f direction) 
 {
-    vec3f_norm_scale_ip(&direction, camera->speed);
     vec3f_add_ip(&camera->position, direction);
+    camera_update_view(camera);
 }
 
 void camera_update_view(Camera* camera)

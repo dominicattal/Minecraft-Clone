@@ -13,6 +13,25 @@ void vec2f_init0(vec2f* p_vec)
     p_vec->y = 0;
 }
 
+void vec2f_normalize_ip(vec2f* p_vec)
+{
+    float x, y, mag;
+    x = p_vec->x;
+    y = p_vec->y;
+    mag = sqrt(x*x + y*y);
+    if (mag != 0)
+    {
+        p_vec->x /= mag;
+        p_vec->y /= mag;
+    }
+}
+
+void vec2f_scale_ip(vec2f* p_vec, float scale)
+{
+    p_vec->x *= scale;
+    p_vec->y *= scale;
+}
+
 // vec2i
 void vec2i_init(vec2i* p_vec, int x, int y)
 {
@@ -82,6 +101,15 @@ vec3f vec3f_add(const vec3f vec1, const vec3f vec2)
     ret.x = vec1.x + vec2.x;
     ret.y = vec1.y + vec2.y;
     ret.z = vec1.z + vec2.z;
+    return ret;
+}
+
+vec3f vec3f_cross(const vec3f vec1, const vec3f vec2)
+{
+    vec3f ret;
+    ret.x = vec1.y * vec2.z - vec1.z * vec2.y;
+    ret.y = vec1.z * vec2.x - vec1.x * vec2.z;
+    ret.z = vec1.x * vec2.y - vec1.y * vec2.x;
     return ret;
 }
 
