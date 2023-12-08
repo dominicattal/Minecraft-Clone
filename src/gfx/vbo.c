@@ -14,3 +14,9 @@ void vbo_bind(VBO vbo)
     //glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
     //glEnableVertexAttribArray(0);
 }
+
+void vbo_link(VBO vbo, float* data)
+{
+    vbo_bind(vbo);
+    glBufferData(GL_ARRAY_BUFFER, 30 * sizeof(float), data, GL_STATIC_DRAW);
+}
