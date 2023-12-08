@@ -13,7 +13,7 @@ struct Renderer
     Shader shader;
     Block* blocks;
     VAO vao;
-    VBO vbo; 
+    VBO vbo, ebo; 
 };
 
 typedef struct Renderer Renderer;

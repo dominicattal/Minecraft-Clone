@@ -1,9 +1,10 @@
 #include "vbo.h"
 
-VBO vbo_init()
+VBO vbo_init(unsigned int type)
 {
     VBO vbo;
     glGenBuffers(1, &vbo.ID);
+    vbo.type = type;
     return vbo;
 }
 

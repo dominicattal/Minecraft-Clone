@@ -5,8 +5,7 @@
 
 struct VBO
 {
-    float* data;
-    unsigned int ID;
+    unsigned int type, ID;
 };
 
 typedef struct VBO VBO;
