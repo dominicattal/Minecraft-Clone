@@ -11,9 +11,9 @@ struct Renderer
 {
     Camera camera;
     Shader shader;
-    VAO vao;
-    VBO vbo;
     Block* blocks;
+    VAO vao;
+    VBO vbo; 
 };
 
 typedef struct Renderer Renderer;
