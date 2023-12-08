@@ -7,14 +7,14 @@ void camera_init(Camera* camera, float aspect_ratio)
     camera->yaw = 0;
     camera->pitch = 0;
     camera->speed = 1;
-    camera->sensitivity = 1;
+    camera->sensitivity = 0.001;
     camera->aspect_ratio = aspect_ratio; 
     camera->fov = PI / 4;
     camera->view = mat4f_init();
     camera->proj = mat4f_init();
     vec3f_init(&camera->position, 0, 0, 3);
-    vec3f_init(&camera->facing, 0, 0, 1);
-    vec3f_init(&camera->right, 1, 0, 0);
+    vec3f_init(&camera->facing, 1, 0, 0);
+    vec3f_init(&camera->right, 0, 0, -1);
     vec3f_init(&camera->up, 0, 1, 0);
 }
 

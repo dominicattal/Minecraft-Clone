@@ -1,6 +1,7 @@
 #include "window.h"
 
 Window window;
+Mouse mouse;
 
 void window_init()
 {
@@ -14,6 +15,9 @@ void window_init()
     window.handle = glfwCreateWindow(window.size.x, window.size.y, "Bad Minecraft", NULL, NULL);
     window.dt = 0;
     window.last_frame = glfwGetTime();
+
+    mouse.position.x = DEFAULT_WINDOW_WIDTH / 2;
+    mouse.position.y = DEFAULT_WINDOW_HEIGHT / 2;
 
     glfwMakeContextCurrent(window.handle);
     glfwSetInputMode(window.handle, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
@@ -93,6 +97,8 @@ void mouse_button_callback(GLFWwindow* window, int button, int actions, int mods
 void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 {
     vec2f offset;
-    vec2f_init(&offset, xpos, ypos);
+    vec2f_init(&offset, mouse.position.x - xpos, mouse.position.y - ypos);
+    mouse.position.x = xpos;
+    mouse.position.y = ypos;
     renderer_camera_turn(offset);
 }

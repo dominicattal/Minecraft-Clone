@@ -11,11 +11,17 @@
 struct Window
 {
     GLFWwindow* handle;
-    vec2f size;
+    vec2i size;
     float dt, last_frame;
 };
 
+struct Mouse 
+{
+    vec2f position;
+};
+
 typedef struct Window Window;
+typedef struct Mouse Mouse;
 
 void window_init();
 void window_loop();
