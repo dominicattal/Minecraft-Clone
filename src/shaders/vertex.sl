@@ -4,8 +4,8 @@ layout (location = 1) in vec2 aTexCoord;
 
 out vec2 TexCoord;
 
-uniform mat4 view;
 uniform mat4 proj;
+uniform mat4 view;
 
 void main()
 {

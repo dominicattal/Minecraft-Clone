@@ -1,13 +1,8 @@
 #include "mat.h"
+#include <stdio.h>
 
 mat4f mat4f_init()
 {
-    /*
-    0 1 2 3
-    4 5 6 7
-    8 9 A B
-    C D E F
-    */
     mat4f mat = malloc(16 * sizeof(float));
     mat[0]  = 1; mat[1]  = 0; mat[2]  = 0; mat[3]  = 0;
     mat[4]  = 0; mat[5]  = 1; mat[6]  = 0; mat[7]  = 0;
@@ -27,7 +22,15 @@ void mat4f_view_matrix(mat4f m, vec3f r, vec3f u, vec3f f, vec3f p)
     m[12] =  k1; m[13] =  k2; m[14] =  k3; m[15] = 1;
 }
 
-void mat4f_proj_matrix(mat4f m, float ar, float fov)
+void mat4f_proj_matrix(mat4f m, float ar, float fov, float ncd, float fcd)
 {
-    
+    float a, b, c, d;
+    a = 1 / (ar * tan(fov / 2));
+    b = 1 / (tan(fov / 2));
+    c = (-ncd-fcd) / (ncd - fcd);
+    d = (2 * fcd * ncd) / (ncd - fcd);
+    m[0]  = a; m[1]  = 0; m[2]  = 0; m[3]  = 0;
+    m[4]  = 0; m[5]  = b; m[6]  = 0; m[7]  = 0;
+    m[8]  = 0; m[9]  = 0; m[10] = c; m[11] = 1;
+    m[12] = 0; m[13] = 0; m[14] = d; m[15] = 0;
 }

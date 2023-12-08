@@ -63,7 +63,7 @@ Shader shader_init(char* vs_path, char* fs_path)
         printf(info_log);
         exit(1);
     }
-    
+
     return self;
 }
 

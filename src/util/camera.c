@@ -12,12 +12,10 @@ void camera_init(Camera* camera, float aspect_ratio)
     camera->fov = PI / 4;
     camera->view = mat4f_init();
     camera->proj = mat4f_init();
-    vec3f_init(&(camera->position), 0.5, 0, 0);
+    vec3f_init(&(camera->position), 0, 0, 3);
     vec3f_init(&(camera->facing), 0, 0, 1);
     vec3f_init(&(camera->right), 1, 0, 0);
     vec3f_init(&(camera->up), 0, 1, 0);
-    camera->viewID = 0;
-    camera->projID = 0;
 }
 
 void camera_set_aspect_ratio(Camera* camera, float aspect_ratio)
@@ -33,5 +31,6 @@ void camera_update_view(Camera* camera)
 }
 void camera_update_proj(Camera* camera)
 {
+    mat4f_proj_matrix(camera->proj, camera->aspect_ratio, camera->fov, NEAR_CLIP_DISTANCE, FAR_CLIP_DISTANCE);
     glUniformMatrix4fv(camera->projID, 1, GL_FALSE, camera->proj);
 }

@@ -19,7 +19,7 @@ void renderer_init(vec2f viewport_size)
         -0.5, 0.5, 0.0
     };
     vbo_link(renderer.vbo, vertices);
-    camera_init(&(renderer.camera), viewport_size.x / viewport_size.y);
+    camera_init(&(renderer.camera), (float)viewport_size.x / viewport_size.y);
     shader_link_camera(renderer.shader, &(renderer.camera));
 }
 
