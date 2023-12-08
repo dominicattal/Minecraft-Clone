@@ -6,7 +6,7 @@ void camera_init(Camera* camera, float aspect_ratio)
 {
     camera->yaw = 0;
     camera->pitch = 0;
-    camera->speed = 150;
+    camera->speed = 20;
     camera->sensitivity = 0.001;
     camera->aspect_ratio = aspect_ratio; 
     camera->fov = PI / 4;

@@ -3,6 +3,7 @@
 
 #include <math.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 struct vec2f { float x, y; };
 struct vec2i { int x, y; };
@@ -44,6 +45,10 @@ vec3f vec3f_add(const vec3f vec1, const vec3f vec2);
 
 vec3f vec3f_cross(const vec3f vec1, const vec3f vec2);
 
+char* vec3f_hash(const vec3f vec);
+char* vec3i_hash(const vec3i vec);
+
 void vec3f_print(const vec3f vec);
+void vec3i_print(const vec3i vec);
 
 #endif

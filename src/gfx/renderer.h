@@ -11,7 +11,7 @@ struct Renderer
 {
     Camera camera;
     Shader shader;
-    Block* blocks;
+    ht* blocks;
     unsigned int block_modelID;
     VAO vao;
     VBO vbo, ebo; 

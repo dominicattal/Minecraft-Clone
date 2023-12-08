@@ -9,5 +9,6 @@
 #include "vec.h"
 #include "camera.h"
 #include "mat.h"
+#include "ht.h"
 
 #endif

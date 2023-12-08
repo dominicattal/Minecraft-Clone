@@ -1,5 +1,28 @@
 #include "vec.h"
 
+char* hash_int(int x)
+{
+    char* hash = malloc(9 * sizeof(char));
+    unsigned int ux;
+    ux = (unsigned int)x;
+    ux += 2147483647;
+    for (int i = 0; i < 8; i++)
+    {
+        int m = ux % 16;
+        if (m < 10)
+        {
+            hash[7-i] = m + '0';
+        }
+        else
+        {
+            hash[7-i] = (char) (m + 97 - 10);
+        }
+        ux /= 16;
+    }
+    hash[8] = '\0';
+    return hash;
+}
+
 // vec2f
 void vec2f_init(vec2f* p_vec, float x, float y)
 {
@@ -122,6 +145,11 @@ vec3f vec3f_cross(const vec3f vec1, const vec3f vec2)
     return ret;
 }
 
+char* vec3f_hash(const vec3f vec)
+{
+    return malloc(sizeof(char));
+}
+
 void vec3f_print(const vec3f vec)
 {
     printf("(%.2f, %.2f, %.2f)\n", vec.x, vec.y, vec.z);
@@ -140,4 +168,28 @@ void vec3i_init0(vec3i* p_vec)
     p_vec->x = 0;
     p_vec->y = 0;
     p_vec->z = 0;
+}
+
+char* vec3i_hash(const vec3i vec)
+{
+    char* hash = malloc(25 * sizeof(char));
+    char* hash_x = hash_int(vec.x);
+    char* hash_y = hash_int(vec.y);
+    char* hash_z = hash_int(vec.z);
+    for (int i = 0; i < 8; i++)
+    {
+        hash[i] = hash_x[i];
+        hash[i+8] = hash_y[i];
+        hash[i+16] = hash_z[i];
+    }
+    hash[24] = '\0';
+    free(hash_x);
+    free(hash_y);
+    free(hash_z);
+    return hash;
+}
+
+void vec3i_print(const vec3i vec)
+{
+    printf("(%d, %d, %d)\n", vec.x, vec.y, vec.z);
 }

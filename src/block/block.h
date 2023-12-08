@@ -5,11 +5,12 @@
 
 struct Block
 {
-    vec3f position;
+    vec3i position;
 };
 
 typedef struct Block Block;
 
-void block_init(Block* block, float x, float y, float z);
+void block_init(Block* block, int x, int y, int z);
+char* block_hash(const Block block);
 
 #endif
