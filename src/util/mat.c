@@ -26,3 +26,8 @@ void mat4f_view_matrix(mat4f m, vec3f r, vec3f u, vec3f f, vec3f p)
     m[8]  = r.z; m[9]  = u.z; m[10] = f.z; m[11] = 0;
     m[12] =  k1; m[13] =  k2; m[14] =  k3; m[15] = 1;
 }
+
+void mat4f_proj_matrix(mat4f m, float ar, float fov)
+{
+    
+}

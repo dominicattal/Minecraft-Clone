@@ -1,6 +1,5 @@
 #include "camera.h"
 #include <glad.h>
-#include <stdio.h>
 #define PI 3.141592653589
 
 void camera_init(Camera* camera, float aspect_ratio)

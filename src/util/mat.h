@@ -7,7 +7,7 @@
 typedef float* mat4f;
 
 mat4f mat4f_init();
-void mat4f_view_matrix(mat4f m, vec3f r, vec3f u, vec3f f, vec3f p);
-void mat4f_proj_matrix(mat4f m, float aspect_ratio);
+void mat4f_view_matrix(mat4f mat, vec3f right, vec3f up, vec3f facing, vec3f position);
+void mat4f_proj_matrix(mat4f mat, float aspect_ratio, float fov);
 
 #endif

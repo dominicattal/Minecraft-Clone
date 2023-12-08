@@ -4,6 +4,9 @@
 #include "vec.h"
 #include "mat.h"
 
+#define NEAR_CLIP_DISTANCE 0.1
+#define FAR_CLIP_DISTANCE 200
+
 struct Camera
 {
     float yaw, pitch, speed, sensitivity, aspect_ratio, fov;
