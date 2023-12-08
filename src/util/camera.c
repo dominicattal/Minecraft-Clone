@@ -1,6 +1,8 @@
 #include "camera.h"
 #define PI 3.141592653589
 
+void fun(int x) {}
+
 void camera_init(Camera* camera)
 {
     camera->yaw = 0;
@@ -17,4 +19,15 @@ void camera_init(Camera* camera)
     vec3f_init0(&(camera->up));
     camera->viewID = 0;
     camera->projID = 0;
+}
+
+void camera_turn(Camera* camera, vec2f offset) {}
+void camera_move(Camera* camera, vec3f direction) {}
+void camera_update_view(Camera* camera)
+{
+    //glUniformMatrix4fv(camera->viewID, 1, GL_FALSE, camera->view);
+}
+void camera_update_proj(Camera* camera)
+{
+    //glUniformMatrix4fv(camera->projID, 1, GL_FALSE, camera->proj);
 }

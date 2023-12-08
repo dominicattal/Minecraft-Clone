@@ -31,9 +31,6 @@ void window_init()
 
 void window_loop()
 {
-    mat4f mat = mat4f_init();
-    float k = 1.0 + mat[0];
-    printf("%.6f", k);
     while (!glfwWindowShouldClose(window.handle))
     {
         process_input();

@@ -6,6 +6,6 @@ set Cfiles=%Cfiles% C:\Users\attal\Documents\Projects\OpenGL\BadMinecraft\lib\st
 for /R .\src %%f in (*) do (
     if %%~xf==.c set "Cfiles=!Cfiles! %%f"
 )
-gcc -I./lib/glad/include -I./lib/glfw/include -I./lib/stb/include -L./lib/glfw/link %Cfiles% -lglfw3dll -o prog
+gcc -Wall -I./lib/glad/include -I./lib/glfw/include -I./lib/stb/include -L./lib/glfw/link %Cfiles% -lglfw3dll -o prog
 prog
 del prog.exe

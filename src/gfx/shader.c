@@ -4,7 +4,6 @@ static const char* _read_file(char* path)
 {
     FILE* ptr;
     char* content;
-    char ch;
     ptr = fopen(path, "rb");
     fseek(ptr, 0, SEEK_END);
     int len = ftell(ptr);
@@ -59,5 +58,6 @@ void shader_use(Shader shader)
 
 void shader_link_camera(Shader shader, Camera camera)
 {
-
+    camera.viewID = glGetUniformLocation(shader.ID, "view");
+    camera.projID = glGetUniformLocation(shader.ID, "proj");
 }
