@@ -2,6 +2,7 @@
 #define VEC_H
 
 #include <math.h>
+#include <stdio.h>
 
 struct vec2f { float x, y; };
 struct vec2i { int x, y; };
@@ -38,5 +39,7 @@ void vec3f_norm_scale_ip(vec3f* p_vec, float scale);
 void vec3f_add_ip(vec3f* p_vec, vec3f vec);
 
 vec3f vec3f_add(const vec3f vec1, const vec3f vec2);
+
+void vec3f_print(const vec3f vec);
 
 #endif

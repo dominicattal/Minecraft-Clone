@@ -85,6 +85,11 @@ vec3f vec3f_add(const vec3f vec1, const vec3f vec2)
     return ret;
 }
 
+void vec3f_print(const vec3f vec)
+{
+    printf("(%.2f, %.2f, %.2f)\n", vec.x, vec.y, vec.z);
+}
+
 // vec3i
 void vec3i_init(vec3i* p_vec, int x, int y, int z)
 {
