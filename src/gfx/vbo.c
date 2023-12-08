@@ -10,10 +10,10 @@ VBO vbo_init(unsigned int type)
 
 void vbo_bind(VBO vbo)
 {
-    glBindBuffer(GL_ARRAY_BUFFER, vbo.ID);
+    glBindBuffer(vbo.type, vbo.ID);
 }
 
-void vbo_buffer(VBO vbo, float* data)
+void vbo_buffer(VBO vbo, int size, void* data)
 {
-    glBufferData(GL_ARRAY_BUFFER, 30 * sizeof(float), data, GL_DYNAMIC_DRAW);
+    glBufferData(vbo.type, size, data, GL_DYNAMIC_DRAW);
 }

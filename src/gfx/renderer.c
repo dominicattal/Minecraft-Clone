@@ -2,15 +2,6 @@
 
 Renderer renderer;
 
-float vertices[18] = {
-        0.5, 0.5, 0.0,
-        0.5, -0.5, 0.0,
-        -0.5, 0.5, 0.0,
-        0.5, -0.5, 0.0,
-        -0.5, -0.5, 0.0,
-        -0.5, 0.5, 0.0
-    };
-
 void renderer_init(vec2i viewport_size)
 {
     renderer.shader = shader_init("src/shaders/vertex.sl", "src/shaders/fragment.sl");
@@ -20,8 +11,8 @@ void renderer_init(vec2i viewport_size)
     renderer.vbo = vbo_init(GL_ARRAY_BUFFER);
     vbo_bind(renderer.vbo);
     renderer.ebo = vbo_init(GL_ELEMENT_ARRAY_BUFFER);
-    vbo_buffer(renderer.vbo, vertices);
-    vao_attr();
+    vbo_bind(renderer.ebo);
+    
     camera_init(&renderer.camera, (float)viewport_size.x / viewport_size.y);
     shader_link_camera(renderer.shader, &renderer.camera);
 }
@@ -58,5 +49,8 @@ void render()
         2, 3, 7, 2, 7, 6, // top (+y)
         5, 4, 0, 5, 0, 1  // bottom (-y)
     };
-    glDrawArrays(GL_TRIANGLES, 0, 6);
+    vbo_buffer(renderer.vbo, sizeof(vertices), vertices);
+    vbo_buffer(renderer.ebo, sizeof(indices), indices);
+    vao_attr();
+    glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
 }

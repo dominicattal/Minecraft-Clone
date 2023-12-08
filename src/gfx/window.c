@@ -65,6 +65,10 @@ void process_input()
         moving.y += 1;
     if (glfwGetKey(window.handle, GLFW_KEY_R) == GLFW_PRESS)
         print_delta_time();
+    if (glfwGetKey(window.handle, GLFW_KEY_T) == GLFW_PRESS)
+        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+    if (glfwGetKey(window.handle, GLFW_KEY_Y) == GLFW_PRESS)
+        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
     vec3f_norm_scale_ip(&moving, window.dt);
     renderer_camera_move(moving);
 }
