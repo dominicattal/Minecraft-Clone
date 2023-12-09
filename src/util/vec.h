@@ -42,6 +42,7 @@ void vec3f_add_ip(vec3f* p_vec, vec3f vec);
 vec3f vec3f_scale(const vec3f vec, float scale);
 
 vec3f vec3f_add(const vec3f vec1, const vec3f vec2);
+vec3i vec3i_add(const vec3i vec1, const vec3i vec2);
 
 vec3f vec3f_cross(const vec3f vec1, const vec3f vec2);
 

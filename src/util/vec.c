@@ -170,6 +170,15 @@ void vec3i_init0(vec3i* p_vec)
     p_vec->z = 0;
 }
 
+vec3i vec3i_add(const vec3i vec1, const vec3i vec2)
+{
+    vec3i ret;
+    ret.x = vec1.x + vec2.x;
+    ret.y = vec1.y + vec2.y;
+    ret.z = vec1.z + vec2.z;
+    return ret;
+}
+
 char* vec3i_hash(const vec3i vec)
 {
     char* hash = malloc(25 * sizeof(char));

@@ -15,9 +15,15 @@ void renderer_init(vec2i viewport_size)
     renderer.block_modelID = glGetUniformLocation(renderer.shader.ID, "model");
     renderer.blocks = ht_create();
 
-    Block* block = malloc(sizeof(Block));
-    block_init(block, 0, 2, 0);
-    ht_set(renderer.blocks, block_hash(*block), block);
+    for (int i = 0; i < 100; i++)
+    {
+        for (int j = 0; j < 100; j++)
+        {
+            Block* block = malloc(sizeof(Block));
+            block_init(block, i, 0, j);
+            ht_set(renderer.blocks, block_hash(*block), block);
+        }
+    }
     
     camera_init(&renderer.camera, (float)viewport_size.x / viewport_size.y);
     shader_link_camera(renderer.shader, &renderer.camera);
@@ -53,8 +59,14 @@ void render_color_blocks()
         2, 3, 7, 2, 7, 6, // +y
         5, 4, 0, 5, 0, 1  // -y
     };
+    vec3i DIRS[6];
+    vec3i_init(&DIRS[0], 0, 0, -1);
+    vec3i_init(&DIRS[1], 0, 0, 1);
+    vec3i_init(&DIRS[2], 1, 0, 0);
+    vec3i_init(&DIRS[3], -1, 0, 0);
+    vec3i_init(&DIRS[4], 0, 1, 0);
+    vec3i_init(&DIRS[5], 0, -1, 0);
     vbo_buffer(renderer.vbo, sizeof(vertices), vertices);
-    vbo_buffer(renderer.ebo, sizeof(indices), indices);
     vao_attr();
     mat4f model = mat4f_init();
     hti iter = ht_iterator(renderer.blocks);
@@ -66,7 +78,14 @@ void render_color_blocks()
         model[13] = pos.y;
         model[14] = pos.z;
         glUniformMatrix4fv(renderer.block_modelID, 1, GL_FALSE, model);
-        glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
+        for (int i = 0; i < 6; i++)
+        {
+            if (ht_get(renderer.blocks, vec3i_hash(vec3i_add(pos, DIRS[i]))) == NULL)
+            {
+                vbo_buffer(renderer.ebo, sizeof(indices) / 6, &indices[6*i]);
+                glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+            }
+        }
     }
 }
 
