@@ -19,16 +19,16 @@ static unsigned int s_indices[] = {
     5, 4, 0, 5, 0, 1  // -y
 };
 
-static void fill_vertices(float* vertices, int offset, int x, int y, int z)
+static void fill_vertices(Chunk* chunk, int offset, int x, int y, int z)
 {
-    for (int side = 0; side < 6; side++)
+    for (Side side = FIRST_SIDE; side <= LAST_SIDE; side++)
     {
         for (int i = 0; i < 6; i++)
         {
             unsigned int index = s_indices[side*6 + i];
-            vertices[3 * (side * 6 + i) + offset]     = s_vertices[3*index]     + x;
-            vertices[3 * (side * 6 + i) + offset + 1] = s_vertices[3*index + 1] + y;
-            vertices[3 * (side * 6 + i) + offset + 2] = s_vertices[3*index + 2] + z;
+            chunk->vertices[3 * (side * 6 + i) + offset]     = s_vertices[3 * index]     + x + CHUNK_SIZE_X * chunk->position.x;
+            chunk->vertices[3 * (side * 6 + i) + offset + 1] = s_vertices[3 * index + 1] + y + CHUNK_SIZE_Y * chunk->position.y;
+            chunk->vertices[3 * (side * 6 + i) + offset + 2] = s_vertices[3 * index + 2] + z + CHUNK_SIZE_Z * chunk->position.z;
         }
     }
 }
@@ -40,6 +40,7 @@ void chunk_init(Chunk* chunk, int x, int y, int z)
     chunk->position = position;
     chunk->data = malloc(CHUNK_VOLUME * sizeof(int));
     chunk->vertices = malloc(0);
+    chunk->indices = malloc(0);
     assert(chunk->data != NULL);
     chunk->count = 0;
 
@@ -72,20 +73,22 @@ vec3i chunk_block_position(int idx)
 
 void chunk_vertices(Chunk* chunk)
 {
-    int size = 0;
+    int num_vertices = 0;
     free(chunk->vertices);
+    free(chunk->indices);
     chunk->vertices = malloc(0);
+    chunk->indices = malloc(0);
     for (int i = 0; i < CHUNK_VOLUME; i++)
     {
         if (chunk->data[i] == 1)
         {
             vec3i pos = chunk_block_position(i);
-            chunk->vertices = realloc(chunk->vertices, (size + 108) * sizeof(float));
+            chunk->vertices = realloc(chunk->vertices, (num_vertices + 108) * sizeof(float));
             assert(chunk->vertices != NULL);
-            fill_vertices(chunk->vertices, size, pos.x, pos.y, pos.z);
-            size += 108;
+            fill_vertices(chunk, num_vertices, pos.x, pos.y, pos.z);
+            num_vertices += 108;
         }
     }
-    chunk->vertices_size = size * sizeof(float);
+    chunk->vertices_size = num_vertices * sizeof(float);
 }
 

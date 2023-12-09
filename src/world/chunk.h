@@ -9,9 +9,16 @@
 
 #define CHUNK_VOLUME (CHUNK_SIZE_X * CHUNK_SIZE_Y * CHUNK_SIZE_Z)
 
+enum Side {BACK=0, FRONT, RIGHT, LEFT, TOP, BOTTOM};
+#define FIRST_SIDE BACK
+#define LAST_SIDE BOTTOM
+
+typedef enum Side Side;
+
 struct Chunk
 {
     float* vertices;
+    unsigned int* indices;
     int vertices_size; // in bytes
     vec3i position;
     int* data;

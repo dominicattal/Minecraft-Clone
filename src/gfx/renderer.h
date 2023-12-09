@@ -13,6 +13,7 @@ struct Renderer
     Camera camera;
     Shader shader;
     Chunk* chunks;
+    int chunk_count;
     VAO vao;
     VBO vbo, ebo; 
 };
