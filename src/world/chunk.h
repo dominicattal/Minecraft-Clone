@@ -19,7 +19,7 @@ struct Chunk
 {
     float* vertices;
     unsigned int* indices;
-    int vertices_size; // in bytes
+    int vertices_size; 
     vec3i position;
     int* data;
     int count;

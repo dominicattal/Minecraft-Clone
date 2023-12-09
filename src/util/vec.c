@@ -135,6 +135,15 @@ void vec3i_init(vec3i* p_vec, int x, int y, int z)
     p_vec->z = z;
 }
 
+vec3i vec3i_initr(int x, int y, int z)
+{
+    vec3i vec;
+    vec.x = x;
+    vec.y = y;
+    vec.z = z;
+    return vec;
+}
+
 void vec3i_init0(vec3i* p_vec)
 {
     p_vec->x = 0;

@@ -4,6 +4,8 @@ Renderer renderer;
 
 static void render_chunk(unsigned int idx)
 {
+    if (renderer.chunks[idx].count == 0)
+        return;
     vbo_buffer(renderer.vbo, renderer.chunks[idx].vertices_size, renderer.chunks[idx].vertices);
     //vbo_buffer(renderer.ebo, sizeof(indices), indices);
     vao_attr();
@@ -21,7 +23,7 @@ void renderer_init(vec2i viewport_size)
     renderer.ebo = vbo_init(GL_ELEMENT_ARRAY_BUFFER);
     vbo_bind(renderer.ebo);
 
-    renderer.chunk_count = 100;
+    renderer.chunk_count = 1;
     renderer.chunks = malloc(renderer.chunk_count * sizeof(Chunk));
     for (int i = 0; i < renderer.chunk_count; i++)
         chunk_init(&renderer.chunks[i], i % 10, 0, (i / 10) % 10);

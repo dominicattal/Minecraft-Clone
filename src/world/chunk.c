@@ -19,18 +19,36 @@ static unsigned int s_indices[] = {
     5, 4, 0, 5, 0, 1  // -y
 };
 
-static void fill_vertices(Chunk* chunk, int offset, int x, int y, int z)
+static int dirs[] = {
+    0, 0, -1,  // -z
+    0, 0, 1,  // +z
+    1, 0, 0,  // +x
+    -1, 0, 0, // -x
+    0, 1, 0,  // +y
+    0, -1, 0  // -y
+};
+
+static void fill_vertices(Chunk* chunk, vec3i pos)
 {
+    int x = pos.x, y = pos.y, z = pos.z;
+    int offset = chunk->vertices_size / sizeof(float);
+    int num_sides = 0;
     for (Side side = FIRST_SIDE; side <= LAST_SIDE; side++)
     {
+        int idx = chunk_index(x + dirs[3*side], y + dirs[3*side+1], z + dirs[3*side+2]);
+        if (idx != -1 && chunk->data[idx] == 1)
+            continue;
         for (int i = 0; i < 6; i++)
         {
             unsigned int index = s_indices[side*6 + i];
-            chunk->vertices[3 * (side * 6 + i) + offset]     = s_vertices[3 * index]     + x + CHUNK_SIZE_X * chunk->position.x;
-            chunk->vertices[3 * (side * 6 + i) + offset + 1] = s_vertices[3 * index + 1] + y + CHUNK_SIZE_Y * chunk->position.y;
-            chunk->vertices[3 * (side * 6 + i) + offset + 2] = s_vertices[3 * index + 2] + z + CHUNK_SIZE_Z * chunk->position.z;
+            chunk->vertices[3 * (num_sides * 6 + i) + offset]     = s_vertices[3 * index]     + x + CHUNK_SIZE_X * chunk->position.x;
+            chunk->vertices[3 * (num_sides * 6 + i) + offset + 1] = s_vertices[3 * index + 1] + y + CHUNK_SIZE_Y * chunk->position.y;
+            chunk->vertices[3 * (num_sides * 6 + i) + offset + 2] = s_vertices[3 * index + 2] + z + CHUNK_SIZE_Z * chunk->position.z;
         }
+        num_sides += 1;
     }
+    int size = num_sides * 18 * sizeof(float);
+    chunk->vertices_size += size;
 }
 
 void chunk_init(Chunk* chunk, int x, int y, int z)
@@ -46,10 +64,13 @@ void chunk_init(Chunk* chunk, int x, int y, int z)
 
     for (int x = 0; x < CHUNK_SIZE_X; x++)
     {
-        for (int z = 0; z < CHUNK_SIZE_Z; z++)
+        for (int y = 0; y < CHUNK_SIZE_Y; y++)
         {
-            chunk->data[chunk_index(x, 0, z)] = 1;
-            chunk->count++;
+            for (int z = 0; z < CHUNK_SIZE_Z; z++)
+            {
+                chunk->data[chunk_index(x, y, z)] = 1;
+                chunk->count++;
+            }
         }
     }
     chunk_vertices(chunk);
@@ -57,6 +78,10 @@ void chunk_init(Chunk* chunk, int x, int y, int z)
 
 int chunk_index(int x, int y, int z)
 {
+    if (x < 0 || y < 0 || z < 0) 
+        return -1;
+    if (x >= CHUNK_SIZE_X || y >= CHUNK_SIZE_Y || z >= CHUNK_SIZE_Z) 
+        return -1;
     return x + CHUNK_SIZE_X * y + CHUNK_SIZE_X * CHUNK_SIZE_Y * z;
 }
 
@@ -73,22 +98,25 @@ vec3i chunk_block_position(int idx)
 
 void chunk_vertices(Chunk* chunk)
 {
-    int num_vertices = 0;
     free(chunk->vertices);
     free(chunk->indices);
-    chunk->vertices = malloc(0);
-    chunk->indices = malloc(0);
+    chunk->vertices_size = 0;
+    chunk->vertices = malloc(CHUNK_VOLUME * 6 * 6 * 3 * sizeof(float));
+    assert(chunk->vertices != NULL);
+    chunk->indices  = malloc(0);
     for (int i = 0; i < CHUNK_VOLUME; i++)
     {
         if (chunk->data[i] == 1)
-        {
-            vec3i pos = chunk_block_position(i);
-            chunk->vertices = realloc(chunk->vertices, (num_vertices + 108) * sizeof(float));
-            assert(chunk->vertices != NULL);
-            fill_vertices(chunk, num_vertices, pos.x, pos.y, pos.z);
-            num_vertices += 108;
-        }
+            fill_vertices(chunk, chunk_block_position(i));
     }
-    chunk->vertices_size = num_vertices * sizeof(float);
+    if (chunk->vertices_size > 0)
+    {
+        chunk->vertices = realloc(chunk->vertices, chunk->vertices_size);
+        assert(chunk->vertices != NULL);
+    }
+    else
+    {
+        free(chunk->vertices);
+    }
 }
 
