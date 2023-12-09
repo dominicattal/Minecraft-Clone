@@ -3,9 +3,9 @@
 
 #include "../util/util.h"
 
-#define CHUNK_SIZE_X 16
-#define CHUNK_SIZE_Y 16
-#define CHUNK_SIZE_Z 16
+#define CHUNK_SIZE_X 32
+#define CHUNK_SIZE_Y 32
+#define CHUNK_SIZE_Z 32
 
 #define CHUNK_VOLUME (CHUNK_SIZE_X * CHUNK_SIZE_Y * CHUNK_SIZE_Z)
 
@@ -19,10 +19,9 @@ struct Chunk
 {
     float* vertices;
     unsigned int* indices;
-    int vertices_size; 
+    int count, vertices_size, indices_size; 
     vec3i position;
     int* data;
-    int count;
 };
 
 typedef struct Chunk Chunk;

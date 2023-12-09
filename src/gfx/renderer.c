@@ -7,9 +7,9 @@ static void render_chunk(unsigned int idx)
     if (renderer.chunks[idx].count == 0)
         return;
     vbo_buffer(renderer.vbo, renderer.chunks[idx].vertices_size, renderer.chunks[idx].vertices);
-    //vbo_buffer(renderer.ebo, sizeof(indices), indices);
+    vbo_buffer(renderer.ebo, renderer.chunks[idx].indices_size, renderer.chunks[idx].indices);
     vao_attr();
-    glDrawArrays(GL_TRIANGLES, 0, renderer.chunks[idx].count * 36);
+    glDrawElements(GL_TRIANGLES, renderer.chunks[idx].count * 36, GL_UNSIGNED_INT, 0);
 }
 
 void renderer_init(vec2i viewport_size)
@@ -23,7 +23,7 @@ void renderer_init(vec2i viewport_size)
     renderer.ebo = vbo_init(GL_ELEMENT_ARRAY_BUFFER);
     vbo_bind(renderer.ebo);
 
-    renderer.chunk_count = 1;
+    renderer.chunk_count = 100;
     renderer.chunks = malloc(renderer.chunk_count * sizeof(Chunk));
     for (int i = 0; i < renderer.chunk_count; i++)
         chunk_init(&renderer.chunks[i], i % 10, 0, (i / 10) % 10);
