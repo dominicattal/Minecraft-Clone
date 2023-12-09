@@ -12,13 +12,10 @@ void renderer_init(vec2i viewport_size)
     vbo_bind(renderer.vbo);
     renderer.ebo = vbo_init(GL_ELEMENT_ARRAY_BUFFER);
     vbo_bind(renderer.ebo);
-    renderer.block_modelID = glGetUniformLocation(renderer.shader.ID, "model");
-    renderer.blocks = malloc(10000 * sizeof(Block));
-    for (int i = 0; i < 100;i++)
-    {
-        for (int j = 0; j < 100; j++)
-            block_init(&renderer.blocks[100*i+j], i, 0, j);
-    }
+
+    renderer.chunks = malloc(sizeof(Chunk));
+    chunk_init(&renderer.chunks[0], 0, 0, 0);
+
     camera_init(&renderer.camera, (float)viewport_size.x / viewport_size.y);
     shader_link_camera(renderer.shader, &renderer.camera);
 }
@@ -33,6 +30,7 @@ void renderer_camera_turn(vec2f offset)
     camera_turn(&renderer.camera, offset);
 }
 
+/*
 void render_color_blocks()
 {
     float vertices[] = {
@@ -56,23 +54,17 @@ void render_color_blocks()
     vbo_buffer(renderer.vbo, sizeof(vertices), vertices);
     vbo_buffer(renderer.ebo, sizeof(indices), indices);
     vao_attr();
-    mat4f model = mat4f_init();
-    for (int i = 0; i < 10000; i++)
-    {
-        vec3f pos = renderer.blocks[i].position;
-        model[12] = pos.x;
-        model[13] = pos.y;
-        model[14] = pos.z;
-        glUniformMatrix4fv(renderer.block_modelID, 1, GL_FALSE, model);
-        glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
-    }
+    //glUniformMatrix4fv(renderer.block_modelID, 1, GL_FALSE, model);
+    //glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
 }
+*/
 
-void render_texture_blocks() {}
-
-void render()
+void renderer_render()
 {
     glClearColor(0.7f, 0.7f, 0.7f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);   
-    render_color_blocks();
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  
+    vbo_buffer(renderer.vbo, renderer.chunks[0].vertices_size, renderer.chunks[0].vertices);
+    //vbo_buffer(renderer.ebo, sizeof(indices), indices);
+    vao_attr();
+    glDrawArrays(GL_TRIANGLES, 0, renderer.chunks[0].count * 108);
 }

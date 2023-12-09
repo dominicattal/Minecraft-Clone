@@ -41,7 +41,7 @@ void window_loop()
     while (!glfwWindowShouldClose(window.handle))
     {
         process_input();
-        render();
+        renderer_render();
         glfwPollEvents();
         glfwSwapBuffers(window.handle);
         update_delta_time();

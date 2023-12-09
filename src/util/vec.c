@@ -141,3 +141,8 @@ void vec3i_init0(vec3i* p_vec)
     p_vec->y = 0;
     p_vec->z = 0;
 }
+
+void vec3i_print(const vec3i vec)
+{
+    printf("(%d, %d, %d)\n", vec.x, vec.y, vec.z);
+}
