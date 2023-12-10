@@ -15,6 +15,8 @@ void window_init()
     window.handle = glfwCreateWindow(window.size.x, window.size.y, "Bad Minecraft", NULL, NULL);
     window.dt = 0;
     window.last_frame = glfwGetTime();
+    window.num_frames = 0;
+    window.avg_fps = 0;
 
     mouse.position.x = DEFAULT_WINDOW_WIDTH / 2;
     mouse.position.y = DEFAULT_WINDOW_HEIGHT / 2;
@@ -45,7 +47,15 @@ void window_loop()
         glfwPollEvents();
         glfwSwapBuffers(window.handle);
         update_delta_time();
+        compute_fps();
     }
+}
+
+void compute_fps()
+{
+    if (window.dt == 0) return;
+    window.avg_fps = (window.avg_fps * window.num_frames + 1 / window.dt) / (window.num_frames + 1);
+    window.num_frames++;
 }
 
 void process_input()
@@ -67,7 +77,7 @@ void process_input()
     if (glfwGetKey(window.handle, GLFW_KEY_E) == GLFW_PRESS)
         moving.y += 1;
     if (glfwGetKey(window.handle, GLFW_KEY_R) == GLFW_PRESS)
-        print_delta_time();
+        print_avg_fps();
     if (glfwGetKey(window.handle, GLFW_KEY_T) == GLFW_PRESS)
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
     if (glfwGetKey(window.handle, GLFW_KEY_Y) == GLFW_PRESS)
@@ -90,6 +100,11 @@ void print_delta_time()
         snprintf(buffer, sizeof buffer, "%f\n", 1 / window.dt);
         printf(buffer);  
     }  
+}
+
+void print_avg_fps()
+{
+    printf("%f\n", window.avg_fps);
 }
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height) 
