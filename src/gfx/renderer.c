@@ -2,26 +2,10 @@
 
 Renderer renderer;
 
-static void render_chunk(unsigned int idx)
-{
-    if (renderer.chunks[idx].count == 0)
-        return;
-    vbo_buffer(renderer.vbo, renderer.chunks[idx].vertices_size, renderer.chunks[idx].vertices);
-    vbo_buffer(renderer.ebo, renderer.chunks[idx].indices_size, renderer.chunks[idx].indices);
-    vao_attr();
-    glDrawElements(GL_TRIANGLES, renderer.chunks[idx].count * 36, GL_UNSIGNED_INT, 0);
-}
-
 void renderer_init(vec2i viewport_size)
 {
     renderer.shader = shader_init("src/shaders/vertex.sl", "src/shaders/fragment.sl");
     shader_use(renderer.shader);
-    renderer.vao = vao_init();
-    vao_bind(renderer.vao);
-    renderer.vbo = vbo_init(GL_ARRAY_BUFFER);
-    vbo_bind(renderer.vbo);
-    renderer.ebo = vbo_init(GL_ELEMENT_ARRAY_BUFFER);
-    vbo_bind(renderer.ebo);
 
     renderer.chunk_count = 10;
     renderer.chunks = malloc(renderer.chunk_count * sizeof(Chunk));
@@ -48,6 +32,6 @@ void renderer_render()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  
     for (int i = 0; i < renderer.chunk_count; i++)
     {
-        render_chunk(i);
+        chunk_render(renderer.chunks[i]);
     }
 }

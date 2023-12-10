@@ -75,6 +75,14 @@ static void fill_vertices(Chunk* chunk, vec3i pos)
     }
     chunk->vertices_size = vertex_offset * sizeof(float);
     chunk->indices_size = index_offset * sizeof(int);
+    if (chunk->vertices_size > 0 && chunk->indices_size > 0)
+    {
+        vao_bind(chunk->vao);
+        vbo_bind(chunk->vbo);
+        vbo_bind(chunk->ebo);
+        vbo_buffer(chunk->vbo, chunk->vertices_size, chunk->vertices);
+        vbo_buffer(chunk->ebo, chunk->indices_size, chunk->indices);
+    }
 }
 
 void chunk_init(Chunk* chunk, int x, int y, int z)
@@ -87,6 +95,10 @@ void chunk_init(Chunk* chunk, int x, int y, int z)
     chunk->indices = malloc(0);
     assert(chunk->data != NULL);
     chunk->count = 0;
+
+    chunk->vao = vao_init();
+    chunk->vbo = vbo_init(GL_ARRAY_BUFFER);
+    chunk->ebo = vbo_init(GL_ELEMENT_ARRAY_BUFFER);
 
     for (int x = 0; x < CHUNK_SIZE_X; x++)
     {
@@ -150,3 +162,11 @@ void chunk_vertices(Chunk* chunk)
     }
 }
 
+void chunk_render(Chunk chunk)
+{
+    vao_bind(chunk.vao);
+    vbo_bind(chunk.vbo);
+    vbo_bind(chunk.ebo);
+    vao_attr();
+    glDrawElements(GL_TRIANGLES, chunk.count * 36, GL_UNSIGNED_INT, 0);
+}

@@ -14,8 +14,6 @@ struct Renderer
     Shader shader;
     Chunk* chunks;
     int chunk_count;
-    VAO vao;
-    VBO vbo, ebo; 
 };
 
 typedef struct Renderer Renderer;
