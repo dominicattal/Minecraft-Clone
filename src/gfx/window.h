@@ -12,7 +12,7 @@ struct Window
 {
     GLFWwindow* handle;
     vec2i size;
-    float dt, last_frame;
+    float dt, last_frame, num_frames, avg_fps;
 };
 
 struct Mouse 
@@ -28,6 +28,8 @@ void window_loop();
 void process_input();
 void update_delta_time();
 void print_delta_time();
+void compute_fps();
+void print_avg_fps();
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void mouse_button_callback(GLFWwindow* window, int button, int actions, int mods);

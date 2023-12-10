@@ -163,39 +163,20 @@ void vec3i_init(vec3i* p_vec, int x, int y, int z)
     p_vec->z = z;
 }
 
+vec3i vec3i_initr(int x, int y, int z)
+{
+    vec3i vec;
+    vec.x = x;
+    vec.y = y;
+    vec.z = z;
+    return vec;
+}
+
 void vec3i_init0(vec3i* p_vec)
 {
     p_vec->x = 0;
     p_vec->y = 0;
     p_vec->z = 0;
-}
-
-vec3i vec3i_add(const vec3i vec1, const vec3i vec2)
-{
-    vec3i ret;
-    ret.x = vec1.x + vec2.x;
-    ret.y = vec1.y + vec2.y;
-    ret.z = vec1.z + vec2.z;
-    return ret;
-}
-
-char* vec3i_hash(const vec3i vec)
-{
-    char* hash = malloc(25 * sizeof(char));
-    char* hash_x = hash_int(vec.x);
-    char* hash_y = hash_int(vec.y);
-    char* hash_z = hash_int(vec.z);
-    for (int i = 0; i < 8; i++)
-    {
-        hash[i] = hash_x[i];
-        hash[i+8] = hash_y[i];
-        hash[i+16] = hash_z[i];
-    }
-    hash[24] = '\0';
-    free(hash_x);
-    free(hash_y);
-    free(hash_z);
-    return hash;
 }
 
 void vec3i_print(const vec3i vec)

@@ -20,6 +20,8 @@ void vec2i_init(vec2i* p_vec, int x, int y);
 void vec3f_init(vec3f* p_vec, float x, float y, float z);
 void vec3i_init(vec3i* p_vec, int x, int y, int z);
 
+vec3i vec3i_initr(int x, int y, int z);
+
 void vec2f_init0(vec2f* p_vec);
 void vec2i_init0(vec2i* p_vec);
 void vec3f_init0(vec3f* p_vec);
