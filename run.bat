@@ -1,8 +1,8 @@
 @echo off
 setlocal enableextensions enabledelayedexpansion
 set Cfiles=
-set Cfiles=%Cfiles% C:\Users\attal\Documents\Projects\OpenGL\BadMinecraft\lib\glad\src\glad_gl.o
-set Cfiles=%Cfiles% C:\Users\attal\Documents\Projects\OpenGL\BadMinecraft\lib\stb\src\stb_image.o
+set Cfiles=%Cfiles% .\lib\glad\src\glad_gl.o
+set Cfiles=%Cfiles% .\lib\stb\src\stb_image.o
 for /R .\src %%f in (*) do (
     if %%~xf==.c set "Cfiles=!Cfiles! %%f"
 )

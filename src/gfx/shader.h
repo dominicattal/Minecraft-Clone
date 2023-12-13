@@ -2,6 +2,7 @@
 #define SHADER_H
 
 #include "gfx.h"
+#include "texture.h"
 #include "../util/util.h"
 
 struct Shader

@@ -4,7 +4,7 @@ Renderer renderer;
 
 void renderer_init(vec2i viewport_size)
 {
-    renderer.shader = shader_init("src/shaders/vertex.sl", "src/shaders/fragment.sl");
+    renderer.shader = shader_init("src/shaders/vert_block.sl", "src/shaders/frag_block.sl");
     shader_use(renderer.shader);
 
     renderer.chunk_count = 1;

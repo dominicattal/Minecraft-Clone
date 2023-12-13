@@ -12,8 +12,8 @@ void vao_bind(VAO vao)
     glBindVertexArray(vao.ID);
 }
 
-void vao_attr()
+void vao_attr(int index, int count, int size, void* offset)
 {
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(index, count, GL_FLOAT, GL_FALSE, size, offset);
+    glEnableVertexAttribArray(index);
 }

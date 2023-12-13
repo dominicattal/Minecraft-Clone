@@ -33,7 +33,14 @@ static unsigned int side_idxs[] = {
 static unsigned int vertex_idxs[] = {
     0, 1, 2, 0, 2, 3
 };
-
+/*
+static unsigned int s_tex[] = {
+    0, 0,
+    0, 1,
+    1, 1,
+    1, 0
+};
+*/
 static int dirs[] = {
     0, 0, -1,  // -z
     0, 0, 1,  // +z
@@ -46,17 +53,21 @@ static int dirs[] = {
 
 static int vertex_count(Chunk* chunk)
 {
-    return chunk->face_count * 12;
+    // each face has 4 vertices with 5 components
+    // block xyz
+    // tex xy
+    return chunk->face_count * 4 * 3;
 }
 
 static int index_count(Chunk* chunk)
 {
+    // each face has 2 triangles
     return chunk->face_count * 6;
 }
 
 static int max_vertex_count(Chunk* chunk)
 {
-    return chunk->data_count * 6 * 12;
+    return chunk->data_count * 6 * 4 * 3;
 }
 
 static int max_index_count(Chunk* chunk)
@@ -85,6 +96,8 @@ static void fill_vertices(Chunk* chunk, vec3i pos)
             chunk->vertices[3 * i + vertex_count(chunk)]     = s_vertices[3 * index]     + pos.x + CHUNK_SIZE_X * chunk->position.x;
             chunk->vertices[3 * i + vertex_count(chunk) + 1] = s_vertices[3 * index + 1] + pos.y + CHUNK_SIZE_Y * chunk->position.y;
             chunk->vertices[3 * i + vertex_count(chunk) + 2] = s_vertices[3 * index + 2] + pos.z + CHUNK_SIZE_Z * chunk->position.z;
+            //chunk->vertices[3 * i + vertex_count(chunk) + 3] = s_tex[2 * i];
+            //chunk->vertices[3 * i + vertex_count(chunk) + 4] = s_tex[2 * i + 1];
         }
 
         for (int i = 0; i < 6; i++)
@@ -99,9 +112,9 @@ void chunk_init(Chunk* chunk, int x, int y, int z)
     vec3i position;
     vec3i_init(&position, x, y, z);
     chunk->position = position;
-    chunk->data = malloc(CHUNK_VOLUME * sizeof(int));
+    chunk->data     = malloc(CHUNK_VOLUME * sizeof(int));
     chunk->vertices = malloc(0);
-    chunk->indices = malloc(0);
+    chunk->indices  = malloc(0);
     chunk->data_count = 0;
 
     assert(chunk->data != NULL);
@@ -183,7 +196,8 @@ void chunk_render(Chunk* chunk)
     vao_bind(chunk->vao);
     vbo_bind(chunk->vbo);
     vbo_bind(chunk->ebo);
-    vao_attr();
+    vao_attr(0, 3, 3 * sizeof(float), 0);
+    //vao_attr(1, 2, 2 * sizeof(float), 3 * sizeof(float));
     glDrawElements(GL_TRIANGLES, index_count(chunk), GL_UNSIGNED_INT, 0);
 }
 
