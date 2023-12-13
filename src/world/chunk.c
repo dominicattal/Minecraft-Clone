@@ -75,14 +75,6 @@ static void fill_vertices(Chunk* chunk, vec3i pos)
     }
     chunk->vertices_size = vertex_offset * sizeof(float);
     chunk->indices_size = index_offset * sizeof(int);
-    if (chunk->vertices_size > 0 && chunk->indices_size > 0)
-    {
-        vao_bind(chunk->vao);
-        vbo_bind(chunk->vbo);
-        vbo_bind(chunk->ebo);
-        vbo_buffer(chunk->vbo, chunk->vertices_size, chunk->vertices);
-        vbo_buffer(chunk->ebo, chunk->indices_size, chunk->indices);
-    }
 }
 
 void chunk_init(Chunk* chunk, int x, int y, int z)
@@ -155,10 +147,12 @@ void chunk_vertices(Chunk* chunk)
         chunk->indices = realloc(chunk->indices, chunk->indices_size);
         assert(chunk->vertices != NULL);
         assert(chunk->indices != NULL);
-    }
-    else
-    {
-        free(chunk->vertices);
+
+        vao_bind(chunk->vao);
+        vbo_bind(chunk->vbo);
+        vbo_bind(chunk->ebo);
+        vbo_buffer(chunk->vbo, chunk->vertices_size, chunk->vertices);
+        vbo_buffer(chunk->ebo, chunk->indices_size, chunk->indices);
     }
 }
 
