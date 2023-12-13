@@ -21,7 +21,7 @@ struct Chunk
 {
     float* vertices;
     unsigned int* indices;
-    int count, vertices_size, indices_size; 
+    int data_count, face_count;
     vec3i position;
     int* data;
     VAO vao;
@@ -34,7 +34,7 @@ void chunk_init(Chunk* chunk, int x, int y, int z);
 int chunk_index(int x, int y, int z);
 vec3i chunk_block_position(int idx);
 void chunk_generate_data(Chunk* chunk);
-void chunk_vertices(Chunk* chunk);
+void chunk_generate_vertices(Chunk* chunk);
 void chunk_render(Chunk chunk);
 
 #endif
