@@ -7,7 +7,7 @@ void renderer_init(vec2i viewport_size)
     renderer.shader = shader_init("src/shaders/vertex.sl", "src/shaders/fragment.sl");
     shader_use(renderer.shader);
 
-    renderer.chunk_count = 10;
+    renderer.chunk_count = 1;
     renderer.chunks = malloc(renderer.chunk_count * sizeof(Chunk));
     for (int i = 0; i < renderer.chunk_count; i++)
         chunk_init(&renderer.chunks[i], i % 10, 0, (i / 10) % 10);

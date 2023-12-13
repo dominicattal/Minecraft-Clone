@@ -1,6 +1,8 @@
 #ifndef UTIL_H
 #define UTIL_H
 
+#pragma region 
+
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -9,6 +11,7 @@
 #include "vec.h"
 #include "camera.h"
 #include "mat.h"
-#include "ht.h"
+
+#pragma endregion
 
 #endif
