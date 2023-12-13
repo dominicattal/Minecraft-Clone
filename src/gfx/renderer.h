@@ -22,5 +22,6 @@ void renderer_init(vec2i viewport_size);
 void renderer_camera_move(vec3f moving, float dt);
 void renderer_camera_turn(vec2f offset);
 void renderer_render();
+void renderer_reload();
 
 #endif

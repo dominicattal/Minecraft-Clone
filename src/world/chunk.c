@@ -1,5 +1,6 @@
 #include "chunk.h"
 
+#pragma region raw_data
 static float s_vertices[] = {
     0, 0, 0,
     1, 0, 0,
@@ -10,16 +11,6 @@ static float s_vertices[] = {
     1, 1, 1,
     0, 1, 1
 };
-
-static int dirs[] = {
-    0, 0, -1,  // -z
-    0, 0, 1,  // +z
-    1, 0, 0,  // +x
-    -1, 0, 0, // -x
-    0, 1, 0,  // +y
-    0, -1, 0  // -y
-};
-
 /*
 static unsigned int s_indices[] = {
     1, 0, 3, 1, 3, 2, // -z
@@ -30,7 +21,6 @@ static unsigned int s_indices[] = {
     5, 4, 0, 5, 0, 1  // -y
 };
 */
-
 static unsigned int side_idxs[] = {
     1, 0, 3, 2, //-z
     4, 5, 6, 7, //+z
@@ -39,6 +29,40 @@ static unsigned int side_idxs[] = {
     2, 3, 7, 6, //+y
     5, 4, 0, 1  //-y
 };
+
+static unsigned int vertex_idxs[] = {
+    0, 1, 2, 0, 2, 3
+};
+
+static int dirs[] = {
+    0, 0, -1,  // -z
+    0, 0, 1,  // +z
+    1, 0, 0,  // +x
+    -1, 0, 0, // -x
+    0, 1, 0,  // +y
+    0, -1, 0  // -y
+};
+#pragma endregion
+
+static int vertex_count(Chunk* chunk)
+{
+    return chunk->face_count * 12;
+}
+
+static int index_count(Chunk* chunk)
+{
+    return chunk->face_count * 6;
+}
+
+static int max_vertex_count(Chunk* chunk)
+{
+    return chunk->data_count * 6 * 12;
+}
+
+static int max_index_count(Chunk* chunk)
+{
+    return chunk->data_count * 6 * 6;
+}
 
 static bool has_adjacent(const Chunk* chunk, const vec3i pos, const Side side)
 {
@@ -58,16 +82,14 @@ static void fill_vertices(Chunk* chunk, vec3i pos)
         for (int i = 0; i < 4; i++)
         {
             unsigned int index = side_idxs[4 * side + i];
-            chunk->vertices[3 * i + chunk->face_count * 12]     = s_vertices[3 * index]     + pos.x + CHUNK_SIZE_X * chunk->position.x;
-            chunk->vertices[3 * i + chunk->face_count * 12 + 1] = s_vertices[3 * index + 1] + pos.y + CHUNK_SIZE_Y * chunk->position.y;
-            chunk->vertices[3 * i + chunk->face_count * 12 + 2] = s_vertices[3 * index + 2] + pos.z + CHUNK_SIZE_Z * chunk->position.z;
+            chunk->vertices[3 * i + vertex_count(chunk)]     = s_vertices[3 * index]     + pos.x + CHUNK_SIZE_X * chunk->position.x;
+            chunk->vertices[3 * i + vertex_count(chunk) + 1] = s_vertices[3 * index + 1] + pos.y + CHUNK_SIZE_Y * chunk->position.y;
+            chunk->vertices[3 * i + vertex_count(chunk) + 2] = s_vertices[3 * index + 2] + pos.z + CHUNK_SIZE_Z * chunk->position.z;
         }
-        chunk->indices[chunk->face_count * 6]     = chunk->face_count * 12 / 3;
-        chunk->indices[chunk->face_count * 6 + 1] = chunk->face_count * 12 / 3 + 1;
-        chunk->indices[chunk->face_count * 6 + 2] = chunk->face_count * 12 / 3 + 2;
-        chunk->indices[chunk->face_count * 6 + 3] = chunk->face_count * 12 / 3;
-        chunk->indices[chunk->face_count * 6 + 4] = chunk->face_count * 12 / 3 + 2;
-        chunk->indices[chunk->face_count * 6 + 5] = chunk->face_count * 12 / 3 + 3;
+
+        for (int i = 0; i < 6; i++)
+            chunk->indices[index_count(chunk) + i] = vertex_count(chunk) / 3 + vertex_idxs[i];
+
         chunk->face_count++;
     }
 }
@@ -132,8 +154,8 @@ void chunk_generate_vertices(Chunk* chunk)
     free(chunk->vertices);
     free(chunk->indices);
     chunk->face_count = 0;
-    chunk->vertices = calloc(chunk->data_count * 6 * 12, sizeof(float));
-    chunk->indices  = calloc(chunk->data_count * 6 * 6, sizeof(int));
+    chunk->vertices = calloc(max_vertex_count(chunk), sizeof(float));
+    chunk->indices  = calloc(max_index_count(chunk), sizeof(int));
     assert(chunk->vertices != NULL);
     assert(chunk->indices != NULL);
     for (int i = 0; i < CHUNK_VOLUME; i++)
@@ -143,24 +165,29 @@ void chunk_generate_vertices(Chunk* chunk)
     }
     if (chunk->face_count * 12 > 0)
     {
-        chunk->vertices = realloc(chunk->vertices, chunk->face_count * 12 * sizeof(float));
-        chunk->indices = realloc(chunk->indices, chunk->face_count * 6 * sizeof(int));
+        chunk->vertices = realloc(chunk->vertices, vertex_count(chunk) * sizeof(float));
+        chunk->indices = realloc(chunk->indices, index_count(chunk) * sizeof(int));
         assert(chunk->vertices != NULL);
         assert(chunk->indices != NULL);
 
         vao_bind(chunk->vao);
         vbo_bind(chunk->vbo);
         vbo_bind(chunk->ebo);
-        vbo_buffer(chunk->vbo, chunk->face_count * 12 * sizeof(float), chunk->vertices);
-        vbo_buffer(chunk->ebo, chunk->face_count * 6 * sizeof(int), chunk->indices);
+        vbo_buffer(chunk->vbo, vertex_count(chunk) * sizeof(float), chunk->vertices);
+        vbo_buffer(chunk->ebo, index_count(chunk) * sizeof(int), chunk->indices);
     }
 }
 
-void chunk_render(Chunk chunk)
+void chunk_render(Chunk* chunk)
 {
-    vao_bind(chunk.vao);
-    vbo_bind(chunk.vbo);
-    vbo_bind(chunk.ebo);
+    vao_bind(chunk->vao);
+    vbo_bind(chunk->vbo);
+    vbo_bind(chunk->ebo);
     vao_attr();
-    glDrawElements(GL_TRIANGLES, chunk.face_count * 6, GL_UNSIGNED_INT, 0);
+    glDrawElements(GL_TRIANGLES, index_count(chunk), GL_UNSIGNED_INT, 0);
+}
+
+void chunk_reload(Chunk* chunk)
+{
+    chunk_generate_vertices(chunk);
 }

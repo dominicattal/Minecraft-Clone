@@ -32,6 +32,11 @@ void renderer_render()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  
     for (int i = 0; i < renderer.chunk_count; i++)
     {
-        chunk_render(renderer.chunks[i]);
+        chunk_render(&renderer.chunks[i]);
     }
+}
+
+void renderer_reload()
+{
+    chunk_reload(&renderer.chunks[0]);
 }

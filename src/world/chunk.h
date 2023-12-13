@@ -35,6 +35,7 @@ int chunk_index(int x, int y, int z);
 vec3i chunk_block_position(int idx);
 void chunk_generate_data(Chunk* chunk);
 void chunk_generate_vertices(Chunk* chunk);
-void chunk_render(Chunk chunk);
+void chunk_render(Chunk* chunk);
+void chunk_reload(Chunk* chunk);
 
 #endif
