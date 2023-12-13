@@ -33,6 +33,7 @@ typedef struct Chunk Chunk;
 void chunk_init(Chunk* chunk, int x, int y, int z);
 int chunk_index(int x, int y, int z);
 vec3i chunk_block_position(int idx);
+void chunk_generate_data(Chunk* chunk);
 void chunk_vertices(Chunk* chunk);
 void chunk_render(Chunk chunk);
 

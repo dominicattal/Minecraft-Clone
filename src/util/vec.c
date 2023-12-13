@@ -1,28 +1,5 @@
 #include "vec.h"
 
-char* hash_int(int x)
-{
-    char* hash = malloc(9 * sizeof(char));
-    unsigned int ux;
-    ux = (unsigned int)x;
-    ux += 2147483647;
-    for (int i = 0; i < 8; i++)
-    {
-        int m = ux % 16;
-        if (m < 10)
-        {
-            hash[7-i] = m + '0';
-        }
-        else
-        {
-            hash[7-i] = (char) (m + 97 - 10);
-        }
-        ux /= 16;
-    }
-    hash[8] = '\0';
-    return hash;
-}
-
 // vec2f
 void vec2f_init(vec2f* p_vec, float x, float y)
 {

@@ -11,6 +11,15 @@ static float s_vertices[] = {
     0, 1, 1
 };
 
+static int dirs[] = {
+    0, 0, -1,  // -z
+    0, 0, 1,  // +z
+    1, 0, 0,  // +x
+    -1, 0, 0, // -x
+    0, 1, 0,  // +y
+    0, -1, 0  // -y
+};
+
 /*
 static unsigned int s_indices[] = {
     1, 0, 3, 1, 3, 2, // -z
@@ -21,15 +30,6 @@ static unsigned int s_indices[] = {
     5, 4, 0, 5, 0, 1  // -y
 };
 */
-
-static int dirs[] = {
-    0, 0, -1,  // -z
-    0, 0, 1,  // +z
-    1, 0, 0,  // +x
-    -1, 0, 0, // -x
-    0, 1, 0,  // +y
-    0, -1, 0  // -y
-};
 
 static unsigned int side_idxs[] = {
     1, 0, 3, 2, //-z
@@ -92,17 +92,7 @@ void chunk_init(Chunk* chunk, int x, int y, int z)
     chunk->vbo = vbo_init(GL_ARRAY_BUFFER);
     chunk->ebo = vbo_init(GL_ELEMENT_ARRAY_BUFFER);
 
-    for (int x = 0; x < CHUNK_SIZE_X; x++)
-    {
-        for (int y = 0; y < CHUNK_SIZE_Y; y++)
-        {
-            for (int z = 0; z < CHUNK_SIZE_Z; z++)
-            {
-                chunk->data[chunk_index(x, y, z)] = 1;
-                chunk->count++;
-            }
-        }
-    }
+    chunk_generate_data(chunk);
     chunk_vertices(chunk);
 }
 
@@ -126,15 +116,30 @@ vec3i chunk_block_position(int idx)
     return pos;
 }
 
+void chunk_generate_data(Chunk* chunk)
+{
+    for (int x = 0; x < CHUNK_SIZE_X; x+=2)
+    {
+        for (int y = 0; y < CHUNK_SIZE_Y; y+=2)
+        {
+            for (int z = 0; z < CHUNK_SIZE_Z; z+=2)
+            {
+                chunk->data[chunk_index(x, y, z)] = 1;
+                chunk->count++;
+            }
+        }
+    }
+}
+
 void chunk_vertices(Chunk* chunk)
 {
     free(chunk->vertices);
     free(chunk->indices);
     chunk->vertices_size = 0;
     chunk->indices_size = 0;
-    chunk->vertices = malloc(chunk->count * 6 * 6 * 3 * sizeof(float));
+    chunk->vertices = malloc(chunk->count * 6 * 12 * sizeof(float));
     assert(chunk->vertices != NULL);
-    chunk->indices  = malloc(chunk->count * 8 * sizeof(int));
+    chunk->indices  = malloc(chunk->count * 6 * 6 * sizeof(int));
     assert(chunk->indices != NULL);
     for (int i = 0; i < CHUNK_VOLUME; i++)
     {
