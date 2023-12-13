@@ -11,6 +11,11 @@ mat4f mat4f_init()
     return mat;
 }
 
+void mat4f_destroy(mat4f mat)
+{
+    free(mat);
+}
+
 void mat4f_view_matrix(mat4f m, vec3f r, vec3f u, vec3f f, vec3f p)
 {
     float k1 = p.x * r.x + p.y * r.y + p.z * r.z;
