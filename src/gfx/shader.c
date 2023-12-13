@@ -79,3 +79,9 @@ void shader_link_camera(Shader shader, Camera* camera)
     camera_update_view(camera);
     camera_update_proj(camera);
 }
+
+void shader_set_texture(Shader shader, Texture texture)
+{
+    unsigned int texID = glGetUniformLocation(shader.ID, "tex");
+    glUniform1i(texID, texture.ID);
+}

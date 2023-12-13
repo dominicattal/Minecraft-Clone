@@ -14,6 +14,10 @@ void renderer_init(vec2i viewport_size)
 
     camera_init(&renderer.camera, (float)viewport_size.x / viewport_size.y);
     shader_link_camera(renderer.shader, &renderer.camera);
+
+    Texture tex = texture_init("assets/blockatlas.png");
+    shader_set_texture(renderer.shader, tex);
+    texture_bind(tex);
 }
 
 void renderer_camera_move(vec3f moving, float dt)

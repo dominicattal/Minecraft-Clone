@@ -1,6 +1,9 @@
 #include "chunk.h"
 
 #pragma region raw_data
+#define NUM_COMPONENTS 5
+#define BLOCK_ATLAS_WIDTH 16
+
 static float s_vertices[] = {
     0, 0, 0,
     1, 0, 0,
@@ -33,14 +36,14 @@ static unsigned int side_idxs[] = {
 static unsigned int vertex_idxs[] = {
     0, 1, 2, 0, 2, 3
 };
-/*
-static unsigned int s_tex[] = {
+
+static float s_tex[] = {
     0, 0,
     0, 1,
     1, 1,
     1, 0
 };
-*/
+
 static int dirs[] = {
     0, 0, -1,  // -z
     0, 0, 1,  // +z
@@ -56,7 +59,7 @@ static int vertex_count(Chunk* chunk)
     // each face has 4 vertices with 5 components
     // block xyz
     // tex xy
-    return chunk->face_count * 4 * 3;
+    return chunk->face_count * 4 * NUM_COMPONENTS;
 }
 
 static int index_count(Chunk* chunk)
@@ -67,7 +70,7 @@ static int index_count(Chunk* chunk)
 
 static int max_vertex_count(Chunk* chunk)
 {
-    return chunk->data_count * 6 * 4 * 3;
+    return chunk->data_count * 6 * 4 * NUM_COMPONENTS;
 }
 
 static int max_index_count(Chunk* chunk)
@@ -93,15 +96,15 @@ static void fill_vertices(Chunk* chunk, vec3i pos)
         for (int i = 0; i < 4; i++)
         {
             unsigned int index = side_idxs[4 * side + i];
-            chunk->vertices[3 * i + vertex_count(chunk)]     = s_vertices[3 * index]     + pos.x + CHUNK_SIZE_X * chunk->position.x;
-            chunk->vertices[3 * i + vertex_count(chunk) + 1] = s_vertices[3 * index + 1] + pos.y + CHUNK_SIZE_Y * chunk->position.y;
-            chunk->vertices[3 * i + vertex_count(chunk) + 2] = s_vertices[3 * index + 2] + pos.z + CHUNK_SIZE_Z * chunk->position.z;
-            //chunk->vertices[3 * i + vertex_count(chunk) + 3] = s_tex[2 * i];
-            //chunk->vertices[3 * i + vertex_count(chunk) + 4] = s_tex[2 * i + 1];
+            chunk->vertices[NUM_COMPONENTS * i + vertex_count(chunk)]     = s_vertices[3 * index]     + pos.x + CHUNK_SIZE_X * chunk->position.x;
+            chunk->vertices[NUM_COMPONENTS * i + vertex_count(chunk) + 1] = s_vertices[3 * index + 1] + pos.y + CHUNK_SIZE_Y * chunk->position.y;
+            chunk->vertices[NUM_COMPONENTS * i + vertex_count(chunk) + 2] = s_vertices[3 * index + 2] + pos.z + CHUNK_SIZE_Z * chunk->position.z;
+            chunk->vertices[NUM_COMPONENTS * i + vertex_count(chunk) + 3] = s_tex[2 * i]     / BLOCK_ATLAS_WIDTH;
+            chunk->vertices[NUM_COMPONENTS * i + vertex_count(chunk) + 4] = s_tex[2 * i + 1] / BLOCK_ATLAS_WIDTH;
         }
 
         for (int i = 0; i < 6; i++)
-            chunk->indices[index_count(chunk) + i] = vertex_count(chunk) / 3 + vertex_idxs[i];
+            chunk->indices[index_count(chunk) + i] = vertex_count(chunk) / NUM_COMPONENTS + vertex_idxs[i];
 
         chunk->face_count++;
     }
@@ -176,7 +179,7 @@ void chunk_generate_vertices(Chunk* chunk)
         if (chunk->data[i] == 1)
             fill_vertices(chunk, chunk_block_position(i));
     }
-    if (chunk->face_count * 12 > 0)
+    if (chunk->face_count > 0)
     {
         chunk->vertices = realloc(chunk->vertices, vertex_count(chunk) * sizeof(float));
         chunk->indices = realloc(chunk->indices, index_count(chunk) * sizeof(int));
@@ -196,8 +199,8 @@ void chunk_render(Chunk* chunk)
     vao_bind(chunk->vao);
     vbo_bind(chunk->vbo);
     vbo_bind(chunk->ebo);
-    vao_attr(0, 3, 3 * sizeof(float), 0);
-    //vao_attr(1, 2, 2 * sizeof(float), 3 * sizeof(float));
+    vao_attr(0, 3, NUM_COMPONENTS * sizeof(float), 0);
+    vao_attr(1, 2, NUM_COMPONENTS * sizeof(float), (void*) (3 * sizeof(float)));
     glDrawElements(GL_TRIANGLES, index_count(chunk), GL_UNSIGNED_INT, 0);
 }
 

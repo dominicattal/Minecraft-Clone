@@ -13,5 +13,6 @@ struct Texture
 typedef struct Texture Texture;
 
 Texture texture_init(const char* image_path);
+void texture_bind(Texture texture);
 
 #endif

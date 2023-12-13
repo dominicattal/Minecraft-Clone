@@ -4,6 +4,7 @@
 #include "shader.h"
 #include "vao.h"
 #include "vbo.h"
+#include "texture.h"
 #include "../block/block.h"
 #include "../util/util.h"
 #include "../world/chunk.h"

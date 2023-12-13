@@ -17,3 +17,9 @@ Texture texture_init(const char* image_path)
     stbi_image_free(data);
     return texture;
 }
+
+void texture_bind(Texture texture)
+{
+    glActiveTexture(GL_TEXTURE1);
+    glBindTexture(GL_TEXTURE_2D, texture.ID);
+}
