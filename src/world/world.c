@@ -29,7 +29,7 @@ void world_init(Shader shader, vec2i viewport_size)
     camera_init(&world.camera, (float)viewport_size.x / viewport_size.y);
     shader_link_camera(shader, &world.camera);
 
-    world.render_distance = 10;
+    world.render_distance = 25;
     world.chunk_offset = vec3i_initr(0, 0, 0);
     world.chunks = calloc(WORLD_VOLUME, sizeof(Chunk));
     for (u16 i = 0; i < world.render_distance * world.render_distance; i++)

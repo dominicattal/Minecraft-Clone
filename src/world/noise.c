@@ -63,5 +63,5 @@ u8 noise_at(vec3i chunk_pos, vec3i block_pos)
     n1 = dot_gradient(x1, z1, x, z);
     ix1 = interpolate(n0, n1, sx);
     value = interpolate(ix0, ix1, sz) + 1;
-    return (s8) (value * 20);
+    return (s8) (value * 50);
 }

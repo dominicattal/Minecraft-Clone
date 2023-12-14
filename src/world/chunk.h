@@ -8,7 +8,7 @@
 #include "noise.h"
 
 #define CHUNK_SIZE_X 32
-#define CHUNK_SIZE_Y 32
+#define CHUNK_SIZE_Y 256
 #define CHUNK_SIZE_Z 32
 
 #define CHUNK_VOLUME (CHUNK_SIZE_X * CHUNK_SIZE_Y * CHUNK_SIZE_Z)
