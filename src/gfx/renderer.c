@@ -4,13 +4,10 @@ Renderer renderer;
 
 void renderer_init(vec2i viewport_size)
 {
+    world_init();
+    
     renderer.shader = shader_init("src/shaders/vert_block.sl", "src/shaders/frag_block.sl");
     shader_use(renderer.shader);
-
-    renderer.chunk_count = 1;
-    renderer.chunks = calloc(renderer.chunk_count, sizeof(Chunk));
-    for (u16 i = 0; i < renderer.chunk_count; i++)
-        chunk_init(&renderer.chunks[i], i % 10, 0, (i / 10) % 10);
 
     camera_init(&renderer.camera, (float)viewport_size.x / viewport_size.y);
     shader_link_camera(renderer.shader, &renderer.camera);
@@ -33,14 +30,7 @@ void renderer_camera_turn(vec2f offset)
 void renderer_render()
 {
     glClearColor(0.7f, 0.7f, 0.7f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  
-    for (int i = 0; i < renderer.chunk_count; i++)
-    {
-        chunk_render(&renderer.chunks[i]);
-    }
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
+    world_render(); 
 }
 
-void renderer_reload()
-{
-    chunk_reload(&renderer.chunks[0]);
-}

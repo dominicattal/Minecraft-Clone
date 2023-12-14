@@ -7,9 +7,9 @@
 #include "type.h"
 
 struct vec2f { f32 x, y; };
-struct vec2i { s16 x, y; };
+struct vec2i { s32 x, y; };
 struct vec3f { f32 x, y, z; };
-struct vec3i { s16 x, y, z; };
+struct vec3i { s32 x, y, z; };
 
 typedef struct vec2f vec2f;
 typedef struct vec2i vec2i;
@@ -17,11 +17,11 @@ typedef struct vec3f vec3f;
 typedef struct vec3i vec3i;
 
 void vec2f_init(vec2f* p_vec, f32 x, f32 y);
-void vec2i_init(vec2i* p_vec, s16 x, s16 y);
+void vec2i_init(vec2i* p_vec, s32 x, s32 y);
 void vec3f_init(vec3f* p_vec, f32 x, f32 y, f32 z);
-void vec3i_init(vec3i* p_vec, s16 x, s16 y, s16 z);
+void vec3i_init(vec3i* p_vec, s32 x, s32 y, s32 z);
 
-vec3i vec3i_initr(s16 x, s16 y, s16 z);
+vec3i vec3i_initr(s32 x, s32 y, s32 z);
 
 void vec2f_init0(vec2f* p_vec);
 void vec2i_init0(vec2i* p_vec);
@@ -49,7 +49,7 @@ vec3i vec3i_add(const vec3i vec1, const vec3i vec2);
 
 vec3f vec3f_cross(const vec3f vec1, const vec3f vec2);
 
-void vec3f_prs16(const vec3f vec);
-void vec3i_prs16(const vec3i vec);
+void vec3f_print(const vec3f vec);
+void vec3i_print(const vec3i vec);
 
 #endif

@@ -1,4 +1,5 @@
 #include "chunk.h"
+#include "world.h"
 
 #pragma region raw_data
 #define NUM_COMPONENTS 5
@@ -85,10 +86,13 @@ static BlockId random_block()
 
 static bool has_adjacent(const Chunk* chunk, const vec3i pos, const Side side)
 {
-    s32 idx = chunk_index(pos.x + dirs[3*side], pos.y + dirs[3*side+1], pos.z + dirs[3*side+2]);
-    if (idx != -1 && chunk->data[idx] == 1)
-        return true;
-    return false;
+    vec3i new = vec3i_initr(pos.x + dirs[3*side], pos.y + dirs[3*side+1], pos.z + dirs[3*side+2]);
+    s32 idx = chunk_block_index(new.x, new.y, new.z);
+    if (idx == -1)
+    {
+        return world_block_at(chunk->position, new);
+    }
+    return chunk->data[idx] != 0;
 }   
 
 static void fill_vertices(Chunk* chunk, BlockId block_id, vec3i pos)
@@ -132,10 +136,9 @@ void chunk_init(Chunk* chunk, s32 x, s32 y, s32 z)
     chunk->ebo = vbo_init(GL_ELEMENT_ARRAY_BUFFER);
 
     chunk_generate_data(chunk);
-    chunk_generate_vertices(chunk);
 }
 
-s32 chunk_index(s32 x, s32 y, s32 z)
+s32 chunk_block_index(s32 x, s32 y, s32 z)
 {
     if (x < 0 || y < 0 || z < 0) 
         return -1;
@@ -157,13 +160,13 @@ vec3i chunk_block_position(s32 idx)
 
 void chunk_generate_data(Chunk* chunk)
 {
-    for (s32 x = 0; x < CHUNK_SIZE_X; x+=2)
+    for (s32 x = 0; x < CHUNK_SIZE_X; x+=1)
     {
-        for (s32 y = 0; y < CHUNK_SIZE_Y; y+=2)
+        for (s32 y = 0; y < CHUNK_SIZE_Y; y+=1)
         {
-            for (s32 z = 0; z < CHUNK_SIZE_Z; z+=2)
+            for (s32 z = 0; z < CHUNK_SIZE_Z; z+=1)
             {
-                chunk->data[chunk_index(x, y, z)] = random_block();
+                chunk->data[chunk_block_index(x, y, z)] = random_block();
                 chunk->data_count++;
             }
         }

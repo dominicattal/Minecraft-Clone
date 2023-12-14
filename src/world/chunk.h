@@ -26,7 +26,7 @@ struct Chunk
 typedef struct Chunk Chunk;
 
 void chunk_init(Chunk* chunk, s32 x, s32 y, s32 z);
-s32 chunk_index(s32 x, s32 y, s32 z);
+s32 chunk_block_index(s32 x, s32 y, s32 z);
 vec3i chunk_block_position(s32 idx);
 void chunk_generate_data(Chunk* chunk);
 void chunk_generate_vertices(Chunk* chunk);

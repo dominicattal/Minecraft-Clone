@@ -33,7 +33,7 @@ void vec2f_scale_ip(vec2f* p_vec, float scale)
 }
 
 // vec2i
-void vec2i_init(vec2i* p_vec, s16 x, s16 y)
+void vec2i_init(vec2i* p_vec, s32 x, s32 y)
 {
     p_vec->x = x;
     p_vec->y = y;
@@ -122,20 +122,20 @@ vec3f vec3f_cross(const vec3f vec1, const vec3f vec2)
     return ret;
 }
 
-void vec3f_prs16(const vec3f vec)
+void vec3f_print(const vec3f vec)
 {
     printf("(%.2f, %.2f, %.2f)\n", vec.x, vec.y, vec.z);
 }
 
 // vec3i
-void vec3i_init(vec3i* p_vec, s16 x, s16 y, s16 z)
+void vec3i_init(vec3i* p_vec, s32 x, s32 y, s32 z)
 {
     p_vec->x = x;
     p_vec->y = y;
     p_vec->z = z;
 }
 
-vec3i vec3i_initr(s16 x, s16 y, s16 z)
+vec3i vec3i_initr(s32 x, s32 y, s32 z)
 {
     vec3i vec;
     vec.x = x;
@@ -151,7 +151,7 @@ void vec3i_init0(vec3i* p_vec)
     p_vec->z = 0;
 }
 
-void vec3i_prs16(const vec3i vec)
+void vec3i_print(const vec3i vec)
 {
     printf("(%d, %d, %d)\n", vec.x, vec.y, vec.z);
 }

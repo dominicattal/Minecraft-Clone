@@ -2,7 +2,7 @@
 #include <glad.h>
 #define PI 3.141592653589
 
-void camera_init(Camera* camera, float aspect_ratio)
+void camera_init(Camera* camera, f32 aspect_ratio)
 {
     camera->yaw = 0;
     camera->pitch = 0;
@@ -15,7 +15,7 @@ void camera_init(Camera* camera, float aspect_ratio)
     vec3f_init(&camera->position, 3, -3, -3);
 }
 
-void camera_set_aspect_ratio(Camera* camera, float aspect_ratio)
+void camera_set_aspect_ratio(Camera* camera, f32 aspect_ratio)
 {
     camera->aspect_ratio = aspect_ratio;
 }
@@ -41,7 +41,7 @@ void camera_turn(Camera* camera, vec2f offset)
     camera_update_view(camera);
 }
 
-void camera_move(Camera* camera, vec3f moving, float dt) 
+void camera_move(Camera* camera, vec3f moving, f32 dt) 
 {
     vec3f direction;
     vec3f_init0(&direction);

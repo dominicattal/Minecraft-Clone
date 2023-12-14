@@ -82,8 +82,6 @@ void process_input()
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
     if (glfwGetKey(window.handle, GLFW_KEY_Y) == GLFW_PRESS)
         glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-    if (glfwGetKey(window.handle, GLFW_KEY_H) == GLFW_PRESS)
-        renderer_reload();
     renderer_camera_move(moving, window.dt);
 }
 
