@@ -5,6 +5,7 @@
 #include "../gfx/vao.h"
 #include "../gfx/vbo.h"
 #include "../util/util.h"
+#include "noise.h"
 
 #define CHUNK_SIZE_X 32
 #define CHUNK_SIZE_Y 32

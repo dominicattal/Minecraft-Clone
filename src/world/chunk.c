@@ -79,10 +79,6 @@ static s32 max_index_count(Chunk* chunk)
 
 #pragma endregion
 
-static BlockId random_block()
-{
-    return (BlockId) (rand() % BLOCK_LAST_ID + 1); 
-}
 
 static bool has_adjacent(const Chunk* chunk, const vec3i pos, const Side side)
 {
@@ -160,13 +156,14 @@ vec3i chunk_block_position(s32 idx)
 
 void chunk_generate_data(Chunk* chunk)
 {
-    for (s32 x = 0; x < CHUNK_SIZE_X; x+=1)
+    for (s32 x = 0; x < CHUNK_SIZE_X; x++)
     {
-        for (s32 y = 0; y < CHUNK_SIZE_Y; y+=1)
+        for (s32 z = 0; z < CHUNK_SIZE_Z; z++)
         {
-            for (s32 z = 0; z < CHUNK_SIZE_Z; z+=1)
+            u8 height = noise_at(chunk->position, vec3i_initr(x, 0, z)) + 1;
+            for (s32 y = 0; y < height; y++)
             {
-                chunk->data[chunk_block_index(x, y, z)] = random_block();
+                chunk->data[chunk_block_index(x, y, z)] = 1;
                 chunk->data_count++;
             }
         }

@@ -22,6 +22,10 @@ void vec3f_init(vec3f* p_vec, f32 x, f32 y, f32 z);
 void vec3i_init(vec3i* p_vec, s32 x, s32 y, s32 z);
 
 vec3i vec3i_initr(s32 x, s32 y, s32 z);
+vec3i vec3i_inita(f32 angle);
+
+vec2i vec2i_inita(f32 angle);
+vec2f vec2f_inita(f32 angle);
 
 void vec2f_init0(vec2f* p_vec);
 void vec2i_init0(vec2i* p_vec);
@@ -50,6 +54,10 @@ vec3f vec3f_add(const vec3f vec1, const vec3f vec2);
 vec3i vec3i_add(const vec3i vec1, const vec3i vec2);
 
 vec3f vec3f_cross(const vec3f vec1, const vec3f vec2);
+
+s32 vec2i_dot(const vec2i vec1, const vec2i vec2);
+f32 vec2f_dot(const vec2f vec1, const vec2f vec2);
+s32 vec3i_dot(const vec3i vec1, const vec3i vec2);
 
 void vec3f_print(const vec3f vec);
 void vec3i_print(const vec3i vec);

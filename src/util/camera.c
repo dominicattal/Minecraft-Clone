@@ -12,7 +12,7 @@ void camera_init(Camera* camera, f32 aspect_ratio)
     camera->fov = PI / 4;
     camera->view = mat4f_init();
     camera->proj = mat4f_init();
-    vec3f_init(&camera->position, 8, 40, 8);
+    vec3f_init(&camera->position, 100, 40, 100);
 }
 
 void camera_set_aspect_ratio(Camera* camera, f32 aspect_ratio)

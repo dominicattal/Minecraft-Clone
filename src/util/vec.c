@@ -32,6 +32,19 @@ void vec2f_scale_ip(vec2f* p_vec, float scale)
     p_vec->y *= scale;
 }
 
+vec2f vec2f_inita(f32 angle)
+{
+    vec2f vec;
+    vec.x = sin(angle);
+    vec.y = cos(angle);
+    return vec;
+}
+
+f32 vec2f_dot(const vec2f vec1, const vec2f vec2)
+{
+    return vec1.x * vec2.x + vec1.y * vec2.y;
+}
+
 // vec2i
 void vec2i_init(vec2i* p_vec, s32 x, s32 y)
 {
@@ -43,6 +56,32 @@ void vec2i_init0(vec2i* p_vec)
 {
     p_vec->x = 0;
     p_vec->y = 0;
+}
+
+vec2i vec2i_inita(f32 angle)
+{
+    vec2i vec;
+    vec.x = sin(angle);
+    vec.y = cos(angle);
+    return vec;
+}
+
+void vec2i_normalize_ip(vec2i* p_vec)
+{
+    f32 x, y, mag;
+    x = p_vec->x;
+    y = p_vec->y;
+    mag = sqrt(x*x + y*y);
+    if (mag != 0)
+    {
+        p_vec->x /= mag;
+        p_vec->y /= mag;
+    }
+}
+
+s32 vec2i_dot(const vec2i vec1, const vec2i vec2)
+{
+    return vec1.x * vec2.x + vec1.y * vec2.y;
 }
 
 // vec3f
@@ -151,11 +190,25 @@ void vec3i_init0(vec3i* p_vec)
     p_vec->z = 0;
 }
 
+vec3i vec3i_inita(f32 angle)
+{
+    vec3i vec;
+    vec.x = sin(angle);
+    vec.y = 0;
+    vec.z = cos(angle);
+    return vec;
+}
+
 void vec3i_sub_ip(vec3i* p_vec, vec3i vec)
 {
     p_vec->x -= vec.x;
     p_vec->y -= vec.y;
     p_vec->z -= vec.z;
+}
+
+s32 vec3i_dot(const vec3i vec1, const vec3i vec2)
+{
+    return vec1.x * vec2.x + vec1.y * vec2.y + vec1.z * vec2.z;
 }
 
 void vec3i_print(const vec3i vec)

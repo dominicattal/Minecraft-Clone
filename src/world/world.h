@@ -2,10 +2,14 @@
 #define WORLD_H
 
 #include "chunk.h"
+#include "noise.h"
 #include "../util/util.h"
 #include "../gfx/shader.h"
 
-#define HEIGHT 1
+#define WORLD_SIZE_X 10
+#define WORLD_SIZE_Y 1
+#define WORLD_SIZE_Z 10
+#define WORLD_VOLUME (WORLD_SIZE_X * WORLD_SIZE_Y * WORLD_SIZE_Z)
 
 struct World 
 {

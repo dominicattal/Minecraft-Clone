@@ -24,12 +24,14 @@ static vec3i camera_chunk_coords()
 
 void world_init(Shader shader, vec2i viewport_size)
 {
+    noise_init(0, WORLD_SIZE_X, WORLD_SIZE_Z, CHUNK_SIZE_X, CHUNK_SIZE_Z);
+
     camera_init(&world.camera, (float)viewport_size.x / viewport_size.y);
     shader_link_camera(shader, &world.camera);
 
-    world.render_distance = 5;
+    world.render_distance = 10;
     world.chunk_offset = vec3i_initr(0, 0, 0);
-    world.chunks = calloc(world.render_distance * world.render_distance, sizeof(Chunk));
+    world.chunks = calloc(WORLD_VOLUME, sizeof(Chunk));
     for (u16 i = 0; i < world.render_distance * world.render_distance; i++)
         chunk_init(&world.chunks[i], i % world.render_distance, 0, (i / world.render_distance) % world.render_distance);
     for (u16 i = 0; i < world.render_distance * world.render_distance; i++)
@@ -53,9 +55,9 @@ s32 world_chunk_index(vec3i chunk_pos)
 {
     if (chunk_pos.x < 0 || chunk_pos.y < 0 || chunk_pos.z < 0) 
         return -1;
-    if (chunk_pos.x >= world.render_distance || chunk_pos.y >= HEIGHT || chunk_pos.z >= world.render_distance)
+    if (chunk_pos.x >= world.render_distance || chunk_pos.y >= 1 || chunk_pos.z >= world.render_distance)
         return -1;
-    return chunk_pos.x + HEIGHT * chunk_pos.y + HEIGHT * world.render_distance * chunk_pos.z;
+    return chunk_pos.x + world.render_distance * chunk_pos.z;
 }
 
 bool world_block_at(vec3i chunk_pos, vec3i block_pos)
@@ -102,21 +104,6 @@ bool world_block_at(vec3i chunk_pos, vec3i block_pos)
 
 void world_camera_move(vec3f moving, f32 dt)
 {
-    vec3i camera_chunk_coords;
-
-    if (world.camera.position.x >= 0)
-        camera_chunk_coords.x = world.camera.position.x / CHUNK_SIZE_X;
-    else
-        camera_chunk_coords.x = world.camera.position.x / CHUNK_SIZE_X - 1;
-    if (world.camera.position.y >= 0)
-        camera_chunk_coords.y = world.camera.position.y / CHUNK_SIZE_Y;
-    else
-        camera_chunk_coords.y = world.camera.position.y / CHUNK_SIZE_Y - 1;
-    if (world.camera.position.z >= 0)
-        camera_chunk_coords.z = world.camera.position.z / CHUNK_SIZE_Z;
-    else
-        camera_chunk_coords.z = world.camera.position.z / CHUNK_SIZE_Z - 1;
-    vec3i_print(camera_chunk_coords);
     camera_move(&world.camera, moving, dt);
 }
 
