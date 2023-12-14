@@ -1,6 +1,7 @@
 #ifndef CHUNK_H
 #define CHUNK_H
 
+#include "../block/block.h"
 #include "../gfx/vao.h"
 #include "../gfx/vbo.h"
 #include "../util/util.h"
@@ -10,10 +11,6 @@
 #define CHUNK_SIZE_Z 32
 
 #define CHUNK_VOLUME (CHUNK_SIZE_X * CHUNK_SIZE_Y * CHUNK_SIZE_Z)
-
-enum Side {BACK=0, FRONT, RIGHT, LEFT, TOP, BOTTOM};
-#define FIRST_SIDE BACK
-#define LAST_SIDE BOTTOM
 
 typedef enum Side Side;
 

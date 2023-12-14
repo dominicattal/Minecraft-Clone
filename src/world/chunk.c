@@ -88,7 +88,7 @@ static bool has_adjacent(const Chunk* chunk, const vec3i pos, const Side side)
 
 static void fill_vertices(Chunk* chunk, vec3i pos)
 {
-    for (Side side = FIRST_SIDE; side <= LAST_SIDE; side++)
+    for (Side side = SIDE_FIRST; side <= SIDE_LAST; side++)
     {
         if (has_adjacent(chunk, pos, side))
             continue;
