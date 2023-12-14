@@ -27,7 +27,7 @@ void window_init();
 void window_loop();
 void process_input();
 void update_delta_time();
-void print_delta_time();
+void print_fps();
 void compute_fps();
 void print_avg_fps();
 

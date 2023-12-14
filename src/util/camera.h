@@ -6,7 +6,7 @@
 #include "type.h"
 
 #define NEAR_CLIP_DISTANCE 0.1
-#define FAR_CLIP_DISTANCE 200
+#define FAR_CLIP_DISTANCE 10000
 
 struct Camera
 {

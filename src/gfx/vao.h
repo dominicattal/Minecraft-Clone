@@ -2,7 +2,6 @@
 #define VAO_H
 
 #include "gfx.h"
-#include "../util/util.h"
 
 struct VAO
 {

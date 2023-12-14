@@ -77,7 +77,7 @@ void process_input()
     if (glfwGetKey(window.handle, GLFW_KEY_E) == GLFW_PRESS)
         moving.y += 1;
     if (glfwGetKey(window.handle, GLFW_KEY_R) == GLFW_PRESS)
-        print_avg_fps();
+        print_fps();
     if (glfwGetKey(window.handle, GLFW_KEY_T) == GLFW_PRESS)
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
     if (glfwGetKey(window.handle, GLFW_KEY_Y) == GLFW_PRESS)
@@ -94,7 +94,7 @@ void update_delta_time()
     window.last_frame = this_frame;
 }
 
-void print_delta_time()
+void print_fps()
 {
     if (window.dt != 0)
     {

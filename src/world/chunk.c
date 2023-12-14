@@ -24,10 +24,10 @@ static u32 s_indices[] = {
 };
 */
 static u32 side_idxs[] = {
-    1, 0, 3, 2, //-z
-    4, 5, 6, 7, //+z
-    5, 1, 2, 6, //+x
-    0, 4, 7, 3, //-x
+    2, 1, 0, 3, //-z
+    7, 4, 5, 6, //+z
+    6, 5, 1, 2, //+x
+    3, 0, 4, 7, //-x
     2, 3, 7, 6, //+y
     5, 4, 0, 1  //-y
 };
@@ -80,7 +80,7 @@ static s32 max_index_count(Chunk* chunk)
 
 static BlockId random_block()
 {
-    return (BlockId) (rand() % 2 + 1); 
+    return (BlockId) (rand() % BLOCK_LAST_ID + 1); 
 }
 
 static bool has_adjacent(const Chunk* chunk, const vec3i pos, const Side side)
@@ -106,7 +106,7 @@ static void fill_vertices(Chunk* chunk, BlockId block_id, vec3i pos)
             chunk->vertices[NUM_COMPONENTS * i + vertex_count(chunk)]     = s_vertices[3 * index]     + pos.x + CHUNK_SIZE_X * chunk->position.x;
             chunk->vertices[NUM_COMPONENTS * i + vertex_count(chunk) + 1] = s_vertices[3 * index + 1] + pos.y + CHUNK_SIZE_Y * chunk->position.y;
             chunk->vertices[NUM_COMPONENTS * i + vertex_count(chunk) + 2] = s_vertices[3 * index + 2] + pos.z + CHUNK_SIZE_Z * chunk->position.z;
-            chunk->vertices[NUM_COMPONENTS * i + vertex_count(chunk) + 3] = (s_tex[2 * i] + tex_coords[side].x)     / BLOCK_ATLAS_WIDTH;
+            chunk->vertices[NUM_COMPONENTS * i + vertex_count(chunk) + 3] = (s_tex[2 * i]     + tex_coords[side].x) / BLOCK_ATLAS_WIDTH;
             chunk->vertices[NUM_COMPONENTS * i + vertex_count(chunk) + 4] = (s_tex[2 * i + 1] + tex_coords[side].y) / BLOCK_ATLAS_WIDTH;
         }
         for (s32 i = 0; i < 6; i++)
@@ -119,7 +119,7 @@ static void fill_vertices(Chunk* chunk, BlockId block_id, vec3i pos)
 void chunk_init(Chunk* chunk, s32 x, s32 y, s32 z)
 {
     block_init();
-    
+
     vec3i_init(&chunk->position, x, y, z);
     chunk->data     = calloc(CHUNK_VOLUME, sizeof(u8));
     chunk->vertices = malloc(0);
