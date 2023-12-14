@@ -7,7 +7,7 @@
 
 struct Texture
 {
-    unsigned int ID;
+    u32 ID;
 };
 
 typedef struct Texture Texture;

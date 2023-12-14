@@ -89,7 +89,7 @@ void process_input()
 
 void update_delta_time()
 {
-    float this_frame = glfwGetTime();
+    f32 this_frame = glfwGetTime();
     window.dt = this_frame - window.last_frame;
     window.last_frame = this_frame;
 }
@@ -99,7 +99,7 @@ void print_delta_time()
     if (window.dt != 0)
     {
         char buffer[50];
-        snprintf(buffer, sizeof buffer, "%f\n", 1 / window.dt);
+        snprintf(buffer, sizeof(buffer), "%f\n", 1 / window.dt);
         printf(buffer);  
     }  
 }

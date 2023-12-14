@@ -6,7 +6,7 @@ static const char* _read_file(char* path)
     char* content;
     ptr = fopen(path, "rb");
     fseek(ptr, 0, SEEK_END);
-    int len = ftell(ptr);
+    s32 len = ftell(ptr);
     assert(len > 0);
     fseek(ptr, 0, SEEK_SET);
     content = calloc(1, len);
@@ -19,7 +19,7 @@ static const char* _read_file(char* path)
 
 static unsigned int _compile(char* s_path, GLenum type)
 {
-    unsigned int shader;
+    u32 shader;
     const char* shader_code;
     shader = glCreateShader(type);
     shader_code = _read_file(s_path);
@@ -28,7 +28,7 @@ static unsigned int _compile(char* s_path, GLenum type)
 
     //debug
     char info_log[512];
-    int success;
+    s32 success;
     glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
     if (!success)
     {
@@ -55,7 +55,7 @@ Shader shader_init(char* vs_path, char* fs_path)
 
     //debug
     char info_log[512];
-    int success;
+    s32 success;
     glGetProgramiv(self.ID, GL_LINK_STATUS, &success);
     if (!success)
     {
@@ -82,6 +82,6 @@ void shader_link_camera(Shader shader, Camera* camera)
 
 void shader_set_texture(Shader shader, Texture texture)
 {
-    unsigned int texID = glGetUniformLocation(shader.ID, "tex");
+    u32 texID = glGetUniformLocation(shader.ID, "tex");
     glUniform1i(texID, texture.ID);
 }

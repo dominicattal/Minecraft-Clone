@@ -3,5 +3,6 @@
 
 #include <glad.h>
 #include <glfw.h>
+#include "../util/type.h"
 
 #endif

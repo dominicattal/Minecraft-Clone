@@ -7,7 +7,7 @@
 
 struct Shader
 {
-    unsigned int ID;
+    u32 ID;
 };
 
 typedef struct Shader Shader;

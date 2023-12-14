@@ -12,24 +12,22 @@
 
 #define CHUNK_VOLUME (CHUNK_SIZE_X * CHUNK_SIZE_Y * CHUNK_SIZE_Z)
 
-typedef enum Side Side;
-
 struct Chunk
 {
-    float* vertices;
-    unsigned int* indices;
-    int data_count, face_count;
+    f32* vertices;
+    u32* indices;
+    u32 data_count, face_count;
     vec3i position;
-    int* data;
+    u32* data;
     VAO vao;
     VBO vbo, ebo;
 };
 
 typedef struct Chunk Chunk;
 
-void chunk_init(Chunk* chunk, int x, int y, int z);
-int chunk_index(int x, int y, int z);
-vec3i chunk_block_position(int idx);
+void chunk_init(Chunk* chunk, s32 x, s32 y, s32 z);
+s32 chunk_index(s32 x, s32 y, s32 z);
+vec3i chunk_block_position(s32 idx);
 void chunk_generate_data(Chunk* chunk);
 void chunk_generate_vertices(Chunk* chunk);
 void chunk_render(Chunk* chunk);

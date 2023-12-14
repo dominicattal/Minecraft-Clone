@@ -3,7 +3,7 @@
 
 mat4f mat4f_init()
 {
-    mat4f mat = malloc(16 * sizeof(float));
+    mat4f mat = malloc(16 * sizeof(f32));
     mat[0]  = 1; mat[1]  = 0; mat[2]  = 0; mat[3]  = 0;
     mat[4]  = 0; mat[5]  = 1; mat[6]  = 0; mat[7]  = 0;
     mat[8]  = 0; mat[9]  = 0; mat[10] = 1; mat[11] = 0;
@@ -27,9 +27,9 @@ void mat4f_view_matrix(mat4f m, vec3f r, vec3f u, vec3f f, vec3f p)
     m[12] =  k1; m[13] =  k2; m[14] =  k3; m[15] = 1;
 }
 
-void mat4f_proj_matrix(mat4f m, float ar, float fov, float ncd, float fcd)
+void mat4f_proj_matrix(mat4f m, f32 ar, f32 fov, f32 ncd, f32 fcd)
 {
-    float a, b, c, d;
+    f32 a, b, c, d;
     a = 1 / (ar * tan(fov / 2));
     b = 1 / (tan(fov / 2));
     c = (-ncd-fcd) / (ncd - fcd);

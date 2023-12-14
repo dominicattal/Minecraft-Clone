@@ -4,7 +4,7 @@
 #define NUM_COMPONENTS 5
 #define BLOCK_ATLAS_WIDTH 16
 
-static float s_vertices[] = {
+static f32 s_vertices[] = {
     0, 0, 0,
     1, 0, 0,
     1, 1, 0,
@@ -15,7 +15,7 @@ static float s_vertices[] = {
     0, 1, 1
 };
 /*
-static unsigned int s_indices[] = {
+static u32 s_indices[] = {
     1, 0, 3, 1, 3, 2, // -z
     4, 5, 6, 4, 6, 7, // +z
     5, 1, 2, 5, 2, 6, // +x
@@ -24,7 +24,7 @@ static unsigned int s_indices[] = {
     5, 4, 0, 5, 0, 1  // -y
 };
 */
-static unsigned int side_idxs[] = {
+static u32 side_idxs[] = {
     1, 0, 3, 2, //-z
     4, 5, 6, 7, //+z
     5, 1, 2, 6, //+x
@@ -33,18 +33,18 @@ static unsigned int side_idxs[] = {
     5, 4, 0, 1  //-y
 };
 
-static unsigned int vertex_idxs[] = {
+static u32 vertex_idxs[] = {
     0, 1, 2, 0, 2, 3
 };
 
-static float s_tex[] = {
+static f32 s_tex[] = {
     0, 0,
     0, 1,
     1, 1,
     1, 0
 };
 
-static int dirs[] = {
+static s32 dirs[] = {
     0, 0, -1,  // -z
     0, 0, 1,  // +z
     1, 0, 0,  // +x
@@ -54,7 +54,7 @@ static int dirs[] = {
 };
 #pragma endregion
 
-static int vertex_count(Chunk* chunk)
+static s32 vertex_count(Chunk* chunk)
 {
     // each face has 4 vertices with 5 components
     // block xyz
@@ -62,25 +62,25 @@ static int vertex_count(Chunk* chunk)
     return chunk->face_count * 4 * NUM_COMPONENTS;
 }
 
-static int index_count(Chunk* chunk)
+static s32 index_count(Chunk* chunk)
 {
     // each face has 2 triangles
     return chunk->face_count * 6;
 }
 
-static int max_vertex_count(Chunk* chunk)
+static s32 max_vertex_count(Chunk* chunk)
 {
     return chunk->data_count * 6 * 4 * NUM_COMPONENTS;
 }
 
-static int max_index_count(Chunk* chunk)
+static s32 max_index_count(Chunk* chunk)
 {
     return chunk->data_count * 6 * 6;
 }
 
 static bool has_adjacent(const Chunk* chunk, const vec3i pos, const Side side)
 {
-    int idx = chunk_index(pos.x + dirs[3*side], pos.y + dirs[3*side+1], pos.z + dirs[3*side+2]);
+    s32 idx = chunk_index(pos.x + dirs[3*side], pos.y + dirs[3*side+1], pos.z + dirs[3*side+2]);
     if (idx != -1 && chunk->data[idx] == 1)
         return true;
     return false;
@@ -93,9 +93,9 @@ static void fill_vertices(Chunk* chunk, vec3i pos)
         if (has_adjacent(chunk, pos, side))
             continue;
         
-        for (int i = 0; i < 4; i++)
+        for (s32 i = 0; i < 4; i++)
         {
-            unsigned int index = side_idxs[4 * side + i];
+            u32 index = side_idxs[4 * side + i];
             chunk->vertices[NUM_COMPONENTS * i + vertex_count(chunk)]     = s_vertices[3 * index]     + pos.x + CHUNK_SIZE_X * chunk->position.x;
             chunk->vertices[NUM_COMPONENTS * i + vertex_count(chunk) + 1] = s_vertices[3 * index + 1] + pos.y + CHUNK_SIZE_Y * chunk->position.y;
             chunk->vertices[NUM_COMPONENTS * i + vertex_count(chunk) + 2] = s_vertices[3 * index + 2] + pos.z + CHUNK_SIZE_Z * chunk->position.z;
@@ -103,19 +103,19 @@ static void fill_vertices(Chunk* chunk, vec3i pos)
             chunk->vertices[NUM_COMPONENTS * i + vertex_count(chunk) + 4] = s_tex[2 * i + 1] / BLOCK_ATLAS_WIDTH;
         }
 
-        for (int i = 0; i < 6; i++)
+        for (s32 i = 0; i < 6; i++)
             chunk->indices[index_count(chunk) + i] = vertex_count(chunk) / NUM_COMPONENTS + vertex_idxs[i];
 
         chunk->face_count++;
     }
 }
 
-void chunk_init(Chunk* chunk, int x, int y, int z)
+void chunk_init(Chunk* chunk, s32 x, s32 y, s32 z)
 {
     vec3i position;
     vec3i_init(&position, x, y, z);
     chunk->position = position;
-    chunk->data     = malloc(CHUNK_VOLUME * sizeof(int));
+    chunk->data     = calloc(CHUNK_VOLUME, sizeof(s32));
     chunk->vertices = malloc(0);
     chunk->indices  = malloc(0);
     chunk->data_count = 0;
@@ -130,7 +130,7 @@ void chunk_init(Chunk* chunk, int x, int y, int z)
     chunk_generate_vertices(chunk);
 }
 
-int chunk_index(int x, int y, int z)
+s32 chunk_index(s32 x, s32 y, s32 z)
 {
     if (x < 0 || y < 0 || z < 0) 
         return -1;
@@ -139,7 +139,7 @@ int chunk_index(int x, int y, int z)
     return x + CHUNK_SIZE_X * y + CHUNK_SIZE_X * CHUNK_SIZE_Y * z;
 }
 
-vec3i chunk_block_position(int idx)
+vec3i chunk_block_position(s32 idx)
 {
     vec3i pos;
     pos.z = idx / (CHUNK_SIZE_X * CHUNK_SIZE_Y);
@@ -152,11 +152,11 @@ vec3i chunk_block_position(int idx)
 
 void chunk_generate_data(Chunk* chunk)
 {
-    for (int x = 0; x < CHUNK_SIZE_X; x+=2)
+    for (s32 x = 0; x < CHUNK_SIZE_X; x+=2)
     {
-        for (int y = 0; y < CHUNK_SIZE_Y; y+=2)
+        for (s32 y = 0; y < CHUNK_SIZE_Y; y+=2)
         {
-            for (int z = 0; z < CHUNK_SIZE_Z; z+=2)
+            for (s32 z = 0; z < CHUNK_SIZE_Z; z+=2)
             {
                 chunk->data[chunk_index(x, y, z)] = 1;
                 chunk->data_count++;
@@ -170,27 +170,27 @@ void chunk_generate_vertices(Chunk* chunk)
     free(chunk->vertices);
     free(chunk->indices);
     chunk->face_count = 0;
-    chunk->vertices = calloc(max_vertex_count(chunk), sizeof(float));
-    chunk->indices  = calloc(max_index_count(chunk), sizeof(int));
+    chunk->vertices = calloc(max_vertex_count(chunk), sizeof(f32));
+    chunk->indices  = calloc(max_index_count(chunk), sizeof(s32));
     assert(chunk->vertices != NULL);
     assert(chunk->indices != NULL);
-    for (int i = 0; i < CHUNK_VOLUME; i++)
+    for (s32 i = 0; i < CHUNK_VOLUME; i++)
     {
-        if (chunk->data[i] == 1)
+        if (chunk->data[i] != 0)
             fill_vertices(chunk, chunk_block_position(i));
     }
     if (chunk->face_count > 0)
     {
-        chunk->vertices = realloc(chunk->vertices, vertex_count(chunk) * sizeof(float));
-        chunk->indices = realloc(chunk->indices, index_count(chunk) * sizeof(int));
+        chunk->vertices = realloc(chunk->vertices, vertex_count(chunk) * sizeof(f32));
+        chunk->indices = realloc(chunk->indices, index_count(chunk) * sizeof(s32));
         assert(chunk->vertices != NULL);
         assert(chunk->indices != NULL);
 
         vao_bind(chunk->vao);
         vbo_bind(chunk->vbo);
         vbo_bind(chunk->ebo);
-        vbo_buffer(chunk->vbo, vertex_count(chunk) * sizeof(float), chunk->vertices);
-        vbo_buffer(chunk->ebo, index_count(chunk) * sizeof(int), chunk->indices);
+        vbo_buffer(chunk->vbo, vertex_count(chunk) * sizeof(f32), chunk->vertices);
+        vbo_buffer(chunk->ebo, index_count(chunk) * sizeof(s32), chunk->indices);
     }
 }
 
@@ -199,8 +199,8 @@ void chunk_render(Chunk* chunk)
     vao_bind(chunk->vao);
     vbo_bind(chunk->vbo);
     vbo_bind(chunk->ebo);
-    vao_attr(0, 3, NUM_COMPONENTS * sizeof(float), 0);
-    vao_attr(1, 2, NUM_COMPONENTS * sizeof(float), (void*) (3 * sizeof(float)));
+    vao_attr(0, 3, NUM_COMPONENTS * sizeof(f32), 0);
+    vao_attr(1, 2, NUM_COMPONENTS * sizeof(f32), (void*) (3 * sizeof(f32)));
     glDrawElements(GL_TRIANGLES, index_count(chunk), GL_UNSIGNED_INT, 0);
 }
 

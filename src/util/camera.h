@@ -3,16 +3,17 @@
 
 #include "vec.h"
 #include "mat.h"
+#include "type.h"
 
 #define NEAR_CLIP_DISTANCE 0.1
 #define FAR_CLIP_DISTANCE 200
 
 struct Camera
 {
-    float yaw, pitch, speed, sensitivity, aspect_ratio, fov;
+    f32 yaw, pitch, speed, sensitivity, aspect_ratio, fov;
     mat4f view, proj;
     vec3f position, facing, right, up;
-    unsigned int viewID, projID;
+    u8 viewID, projID;
 };
 
 typedef struct Camera Camera;

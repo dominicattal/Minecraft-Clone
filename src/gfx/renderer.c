@@ -8,8 +8,8 @@ void renderer_init(vec2i viewport_size)
     shader_use(renderer.shader);
 
     renderer.chunk_count = 1;
-    renderer.chunks = malloc(renderer.chunk_count * sizeof(Chunk));
-    for (int i = 0; i < renderer.chunk_count; i++)
+    renderer.chunks = calloc(renderer.chunk_count, sizeof(Chunk));
+    for (u16 i = 0; i < renderer.chunk_count; i++)
         chunk_init(&renderer.chunks[i], i % 10, 0, (i / 10) % 10);
 
     camera_init(&renderer.camera, (float)viewport_size.x / viewport_size.y);
@@ -20,7 +20,7 @@ void renderer_init(vec2i viewport_size)
     texture_bind(tex);
 }
 
-void renderer_camera_move(vec3f moving, float dt)
+void renderer_camera_move(vec3f moving, f32 dt)
 {
     camera_move(&renderer.camera, moving, dt);
 }

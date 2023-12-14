@@ -9,7 +9,7 @@ Texture texture_init(const char* image_path)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    int width, height, nrChannels;
+    s32 width, height, nrChannels;
     unsigned char *data = stbi_load(image_path, &width, &height, &nrChannels, 0); 
     assert(data != NULL);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
