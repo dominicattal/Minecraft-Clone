@@ -151,6 +151,13 @@ void vec3i_init0(vec3i* p_vec)
     p_vec->z = 0;
 }
 
+void vec3i_sub_ip(vec3i* p_vec, vec3i vec)
+{
+    p_vec->x -= vec.x;
+    p_vec->y -= vec.y;
+    p_vec->z -= vec.z;
+}
+
 void vec3i_print(const vec3i vec)
 {
     printf("(%d, %d, %d)\n", vec.x, vec.y, vec.z);

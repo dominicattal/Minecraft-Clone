@@ -4,6 +4,7 @@
 #include "gfx.h"
 #include "../util/util.h"
 #include "renderer.h"
+#include "../world/world.h"
 
 #define DEFAULT_WINDOW_WIDTH 800
 #define DEFAULT_WINDOW_HEIGHT 600

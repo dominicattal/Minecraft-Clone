@@ -11,7 +11,6 @@
 
 struct Renderer
 {
-    Camera camera;
     Shader shader;
     World world;
 };
@@ -19,8 +18,6 @@ struct Renderer
 typedef struct Renderer Renderer;
 
 void renderer_init(vec2i viewport_size);
-void renderer_camera_move(vec3f moving, f32 dt);
-void renderer_camera_turn(vec2f offset);
 void renderer_render();
 
 #endif

@@ -4,27 +4,14 @@ Renderer renderer;
 
 void renderer_init(vec2i viewport_size)
 {
-    world_init();
-    
     renderer.shader = shader_init("src/shaders/vert_block.sl", "src/shaders/frag_block.sl");
     shader_use(renderer.shader);
 
-    camera_init(&renderer.camera, (float)viewport_size.x / viewport_size.y);
-    shader_link_camera(renderer.shader, &renderer.camera);
+    world_init(renderer.shader, viewport_size);
 
     Texture tex = texture_init("assets/blockatlas.png");
     shader_set_texture(renderer.shader, tex);
     texture_bind(tex);
-}
-
-void renderer_camera_move(vec3f moving, f32 dt)
-{
-    camera_move(&renderer.camera, moving, dt);
-}
-
-void renderer_camera_turn(vec2f offset)
-{
-    camera_turn(&renderer.camera, offset);
 }
 
 void renderer_render()

@@ -42,6 +42,8 @@ void vec3f_norm_scale_ip(vec3f* p_vec, f32 scale);
 
 void vec3f_add_ip(vec3f* p_vec, vec3f vec);
 
+void vec3i_sub_ip(vec3i* p_vec, vec3i vec);
+
 vec3f vec3f_scale(const vec3f vec, f32 scale);
 
 vec3f vec3f_add(const vec3f vec1, const vec3f vec2);

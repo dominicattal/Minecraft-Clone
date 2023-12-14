@@ -65,24 +65,24 @@ void process_input()
     if (glfwGetKey(window.handle, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window.handle, true);
     if (glfwGetKey(window.handle, GLFW_KEY_W) == GLFW_PRESS)
-        moving.z -= 1;
-    if (glfwGetKey(window.handle, GLFW_KEY_S) == GLFW_PRESS)
         moving.z += 1;
+    if (glfwGetKey(window.handle, GLFW_KEY_S) == GLFW_PRESS)
+        moving.z -= 1;
     if (glfwGetKey(window.handle, GLFW_KEY_A) == GLFW_PRESS)
-        moving.x += 1;
-    if (glfwGetKey(window.handle, GLFW_KEY_D) == GLFW_PRESS)
         moving.x -= 1;
+    if (glfwGetKey(window.handle, GLFW_KEY_D) == GLFW_PRESS)
+        moving.x += 1;
     if (glfwGetKey(window.handle, GLFW_KEY_Q) == GLFW_PRESS)
-        moving.y -= 1;
-    if (glfwGetKey(window.handle, GLFW_KEY_E) == GLFW_PRESS)
         moving.y += 1;
+    if (glfwGetKey(window.handle, GLFW_KEY_E) == GLFW_PRESS)
+        moving.y -= 1;
     if (glfwGetKey(window.handle, GLFW_KEY_R) == GLFW_PRESS)
         print_fps();
     if (glfwGetKey(window.handle, GLFW_KEY_T) == GLFW_PRESS)
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
     if (glfwGetKey(window.handle, GLFW_KEY_Y) == GLFW_PRESS)
         glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-    renderer_camera_move(moving, window.dt);
+    world_camera_move(moving, window.dt);
 }
 
 void update_delta_time()
@@ -121,5 +121,5 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
     vec2f_init(&offset, mouse.position.x - xpos, mouse.position.y - ypos);
     mouse.position.x = xpos;
     mouse.position.y = ypos;
-    renderer_camera_turn(offset);
+    world_camera_turn(offset);
 }
