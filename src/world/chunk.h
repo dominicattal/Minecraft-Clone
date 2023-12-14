@@ -18,7 +18,7 @@ struct Chunk
     u32* indices;
     u32 data_count, face_count;
     vec3i position;
-    u32* data;
+    u8* data;
     VAO vao;
     VBO vbo, ebo;
 };

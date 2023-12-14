@@ -2,7 +2,6 @@
 
 #pragma region raw_data
 #define NUM_COMPONENTS 5
-#define BLOCK_ATLAS_WIDTH 16
 
 static f32 s_vertices[] = {
     0, 0, 0,
@@ -54,11 +53,10 @@ static s32 dirs[] = {
 };
 #pragma endregion
 
+#pragma region counts
 static s32 vertex_count(Chunk* chunk)
 {
-    // each face has 4 vertices with 5 components
-    // block xyz
-    // tex xy
+    // each face has 4 vertices with components
     return chunk->face_count * 4 * NUM_COMPONENTS;
 }
 
@@ -78,6 +76,13 @@ static s32 max_index_count(Chunk* chunk)
     return chunk->data_count * 6 * 6;
 }
 
+#pragma endregion
+
+static BlockId random_block()
+{
+    return (BlockId) (rand() % 2 + 1); 
+}
+
 static bool has_adjacent(const Chunk* chunk, const vec3i pos, const Side side)
 {
     s32 idx = chunk_index(pos.x + dirs[3*side], pos.y + dirs[3*side+1], pos.z + dirs[3*side+2]);
@@ -86,8 +91,10 @@ static bool has_adjacent(const Chunk* chunk, const vec3i pos, const Side side)
     return false;
 }   
 
-static void fill_vertices(Chunk* chunk, vec3i pos)
+static void fill_vertices(Chunk* chunk, BlockId block_id, vec3i pos)
 {
+    vec2i tex_coords[6];
+    memcpy(tex_coords, BLOCKS[block_id].tex_coords, 6 * sizeof(vec2i));
     for (Side side = SIDE_FIRST; side <= SIDE_LAST; side++)
     {
         if (has_adjacent(chunk, pos, side))
@@ -99,10 +106,9 @@ static void fill_vertices(Chunk* chunk, vec3i pos)
             chunk->vertices[NUM_COMPONENTS * i + vertex_count(chunk)]     = s_vertices[3 * index]     + pos.x + CHUNK_SIZE_X * chunk->position.x;
             chunk->vertices[NUM_COMPONENTS * i + vertex_count(chunk) + 1] = s_vertices[3 * index + 1] + pos.y + CHUNK_SIZE_Y * chunk->position.y;
             chunk->vertices[NUM_COMPONENTS * i + vertex_count(chunk) + 2] = s_vertices[3 * index + 2] + pos.z + CHUNK_SIZE_Z * chunk->position.z;
-            chunk->vertices[NUM_COMPONENTS * i + vertex_count(chunk) + 3] = s_tex[2 * i]     / BLOCK_ATLAS_WIDTH;
-            chunk->vertices[NUM_COMPONENTS * i + vertex_count(chunk) + 4] = s_tex[2 * i + 1] / BLOCK_ATLAS_WIDTH;
+            chunk->vertices[NUM_COMPONENTS * i + vertex_count(chunk) + 3] = (s_tex[2 * i] + tex_coords[side].x)     / BLOCK_ATLAS_WIDTH;
+            chunk->vertices[NUM_COMPONENTS * i + vertex_count(chunk) + 4] = (s_tex[2 * i + 1] + tex_coords[side].y) / BLOCK_ATLAS_WIDTH;
         }
-
         for (s32 i = 0; i < 6; i++)
             chunk->indices[index_count(chunk) + i] = vertex_count(chunk) / NUM_COMPONENTS + vertex_idxs[i];
 
@@ -112,14 +118,13 @@ static void fill_vertices(Chunk* chunk, vec3i pos)
 
 void chunk_init(Chunk* chunk, s32 x, s32 y, s32 z)
 {
-    vec3i position;
-    vec3i_init(&position, x, y, z);
-    chunk->position = position;
-    chunk->data     = calloc(CHUNK_VOLUME, sizeof(s32));
+    block_init();
+    
+    vec3i_init(&chunk->position, x, y, z);
+    chunk->data     = calloc(CHUNK_VOLUME, sizeof(u8));
     chunk->vertices = malloc(0);
     chunk->indices  = malloc(0);
     chunk->data_count = 0;
-
     assert(chunk->data != NULL);
 
     chunk->vao = vao_init();
@@ -158,7 +163,7 @@ void chunk_generate_data(Chunk* chunk)
         {
             for (s32 z = 0; z < CHUNK_SIZE_Z; z+=2)
             {
-                chunk->data[chunk_index(x, y, z)] = 1;
+                chunk->data[chunk_index(x, y, z)] = random_block();
                 chunk->data_count++;
             }
         }
@@ -171,14 +176,16 @@ void chunk_generate_vertices(Chunk* chunk)
     free(chunk->indices);
     chunk->face_count = 0;
     chunk->vertices = calloc(max_vertex_count(chunk), sizeof(f32));
-    chunk->indices  = calloc(max_index_count(chunk), sizeof(s32));
+    chunk->indices  = calloc(max_index_count(chunk), sizeof(u32));
     assert(chunk->vertices != NULL);
     assert(chunk->indices != NULL);
+    
     for (s32 i = 0; i < CHUNK_VOLUME; i++)
     {
         if (chunk->data[i] != 0)
-            fill_vertices(chunk, chunk_block_position(i));
+            fill_vertices(chunk, (BlockId) chunk->data[i], chunk_block_position(i));
     }
+
     if (chunk->face_count > 0)
     {
         chunk->vertices = realloc(chunk->vertices, vertex_count(chunk) * sizeof(f32));
