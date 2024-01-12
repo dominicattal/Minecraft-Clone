@@ -1,4 +1,4 @@
-Bad Minecraft
+Minecraft Clone
 Inspired from this repo: https://github.com/jdah/minecraft-weekend
 
 This is like my 3rd attempt at creating a Minecraft clone in OpenGL. My previous attempts used visual studio, C++, and a linear math library. However, I decided to use only C in vscode for this attempt. 
